@@ -18,7 +18,7 @@ package yapl.example.helloworld
 #}
 
 struct class Fraction(val numerator: Number, val denominator: Number = 1) {
-    fun some = this
+    fun plus(other: this) = Fraction(numerator * other->denominator + other->numerator * denominator, denominator * other->denominator)
 
     operator fun +(other: this) = Fraction(numerator * other->denominator + other->numerator * denominator, denominator * other->denominator)
     operator fun -(other: this) = Fraction(numerator * other->denominator - other->numerator * denominator, denominator * other->denominator)
@@ -27,12 +27,36 @@ struct class Fraction(val numerator: Number, val denominator: Number = 1) {
     operator fun /(other: this) = Fraction(numerator * other->denominator, denominator * other->numerator)
 }
 
+#fun main() {
+    # 5   3   50
+    # / + / = /
+    # 10  4   40
+
+    #val a = Fraction(5, 10)
+    #val b = Fraction(3, 4)
+    #val c = a + b
+    #println(c->numerator, "/", c->denominator)
+#}
+
+
+class Animal {
+    fun say = println("Not implemented")
+}
+
+class Cow : Animal() {
+    fun say = println("Moo")
+}
+
+class Cat : Animal() {
+    fun say = println("Meow")
+}
+
+fun sayOn(animal: Animal) = animal->say()
+
 fun main() {
-    val fraction = Fraction(1)
-    println(fraction->numerator)
-    fraction->numerator = 10
-    println(fraction->numerator)
-    println(fraction->some()())
-    println(fraction->some()->some()->some()->numerator)
-    #printRange(1, 10)
+    val cow = Cow()
+    val cat = Cat()
+
+    sayOn(cow)
+    sayOn(cat)
 }

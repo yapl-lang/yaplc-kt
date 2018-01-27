@@ -51,6 +51,14 @@ class Parser(private val tokens: TokenStream) {
 		return condition(tokens.peek(offset, skipWhitespace) as? T ?: return false)
 	}
 
+	private fun skipNewline() = skipWhitespace<TokenNewline>()
+
+	private fun isNewline() = tokens.push {
+		pop()
+
+		skipNewline()
+	}
+
 	private inline fun <reified T : Token> skipWhitespace(condition: (T) -> Boolean = { true }): Boolean {
 		tokens.push()
 
@@ -159,7 +167,7 @@ class Parser(private val tokens: TokenStream) {
 				nodes.add(node)
 				continue
 			}
-			if (newlineDelimiter && skipWhitespace<TokenNewline>()) {
+			if (newlineDelimiter && skipNewline()) {
 				val node = parseOptional(method) ?: break
 				nodes.add(node)
 				continue
@@ -332,17 +340,18 @@ class Parser(private val tokens: TokenStream) {
 		val name = parseName()
 		val primaryConstructor = parseOptional(::parsePrimaryConstructor)
 		val parent = if (skip<TokenPunctuation> { it.value == ':' })
-			(parseExpression() as? AstCallExpression) ?: error("Superclass should be a call")
+			(parseCall(parseReferenceExpression(), false)) ?: error("Superclass should be a call")
 		else null
 		val members = if (skip<TokenPunctuation> { it.value == '{' })
 			parseMultiple { parseOptional(::parseConstructor) ?: parseDeclaration() }
 					.also { expected<TokenPunctuation> { it.value == '}' } }
-		else
-			emptyList()
+		else emptyList()
 
 		AstClass(modifiers, name, parent, primaryConstructor, members)
 	}
 
+
+	fun parseReferenceExpression() = AstReferenceExpression(parseName())
 
 	fun parseArgument() = parse {
 		val name = tokens.push {
@@ -385,13 +394,7 @@ class Parser(private val tokens: TokenStream) {
 	private inline fun parseMaybeCall(crossinline call: () -> AstExpression) = parse {
 		val exp = call()
 
-		// NOTE: Do not use push {}, because it falls down
-		tokens.push()
-		if (skipWhitespace<TokenNewline>()) {
-			tokens.pop()
-			return@parse exp
-		}
-		tokens.release()
+		if (skipNewline()) return@parse exp
 
 		val arguments = if (skip<TokenPunctuation> { it.value == '(' }) {
 			parseDelimited(::parseArgument, false, mayEmitValueAfterComma = true).also {
@@ -404,6 +407,21 @@ class Parser(private val tokens: TokenStream) {
 		} else null
 
 		if (arguments == null && lambda == null) exp
+		else AstCallExpression(exp, arguments ?: emptyList(), lambda)
+	}
+
+	private fun parseCall(exp: AstExpression, allowLambda: Boolean = true): AstCallExpression? {
+		val arguments = if (skip<TokenPunctuation> { it.value == '(' }) {
+			parseDelimited(::parseArgument, false, mayEmitValueAfterComma = true).also {
+				expectedPunctuation(')')
+			}
+		} else null
+
+		val lambda = if (allowLambda && nextIs<TokenPunctuation> { it.value == '{' }) {
+			parseFunction(requireFunKeyword = false, isExpression = true)
+		} else null
+
+		return if (arguments == null && lambda == null) null
 		else AstCallExpression(exp, arguments ?: emptyList(), lambda)
 	}
 
@@ -439,40 +457,45 @@ class Parser(private val tokens: TokenStream) {
 			return@parse parseMaybeBinary(AstBinaryOperator(left, right, operator), myPrecedence)
 		}
 
+		if (skipNewline()) return@parse left
+
 		tokens.push {
-			tokens.push()
-			val isnl = skipWhitespace<TokenNewline>()
-			tokens.pop()
+			val precedence = 35
+			if (precedence <= myPrecedence) return@push pop()
 
-			if (!isnl) {
-				val isInverted = skip<TokenPunctuation> { it.value == '!' }
-				val method = AstReferenceExpression(parseOptional(::parseName) ?: return@push pop())
-				val operator = binaryOperators.named[method.name.value]
-
-				val precedence = operator?.precedence ?: 2
-				if (precedence <= myPrecedence) return@push pop()
-
-				val right = parseMaybeBinary(parseAtom(), precedence)
-
-				val leftExp = if (operator == null)
-					AstBinaryCall(left, right, method, isInverted)
-				else
-					AstBinaryOperator(left, right, operator, isInverted)
-
-				return@parse parseMaybeBinary(leftExp, myPrecedence)
+			parseCall(left)?.let {
+				return@parse parseMaybeBinary(it, myPrecedence)
 			}
+		}
+
+		tokens.push {
+			val isInverted = skip<TokenPunctuation> { it.value == '!' }
+			val method = AstReferenceExpression(parseOptional(::parseName) ?: return@push pop())
+			val operator = binaryOperators.named[method.name.value]
+
+			val precedence = operator?.precedence ?: 2
+			if (precedence <= myPrecedence) return@push pop()
+
+			val right = parseMaybeBinary(parseAtom(), precedence)
+
+			val leftExp = if (operator == null)
+				AstBinaryCall(left, right, method, isInverted)
+			else
+				AstBinaryOperator(left, right, operator, isInverted)
+
+			return@parse parseMaybeBinary(leftExp, myPrecedence)
 		}
 
 		return@parse left
 	}
 
-	fun parseAtom(): AstExpression = parseMaybeCall {
+	fun parseAtom(): AstExpression = parse {//parseMaybeCall {
 		if (skip<TokenPunctuation> { it.value == '(' })
 			parseExpression().also { expectedPunctuation(')') }
 		else take<TokenStringLiteral>()?.run { AstStringLiteralExpression(value) }
 				?: take<TokenCharLiteral>()?.run { AstCharLiteralExpression(value) }
 				?: take<TokenNumberLiteral>()?.run { AstNumberLiteralExpression(beforeComma, afterComma, afterE) }
-				?: parseOptional { AstReferenceExpression(parseName()) }
+				?: parseOptional(::parseReferenceExpression)
 				?: parseOptional(::parseBlockExpression)
 				?: parseOptional(::parseIf)
 				?: parseOptional(::parseReturn)
@@ -480,7 +503,7 @@ class Parser(private val tokens: TokenStream) {
 				?: error("Unexpected")
 	}
 
-	fun parseExpression(): AstExpression = parseMaybeCall {
+	fun parseExpression(): AstExpression = parse {//parseMaybeCall {
 		parseMaybeBinary(parseAtom(), 0)
 	}
 
@@ -492,7 +515,7 @@ class Parser(private val tokens: TokenStream) {
 
 		while (skip<TokenSemicolon>());
 		do expressions.add(parseOptional(::parseExpression) ?: continue)
-		while (skip<TokenSemicolon>() || skipWhitespace<TokenNewline>())
+		while (skip<TokenSemicolon>() || skipNewline())
 
 		expectedPunctuation('}')
 

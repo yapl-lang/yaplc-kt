@@ -33,7 +33,11 @@ class Environment(val parent: Environment? = null) {
 		true
 	} else parent?.setVariable(name, value) ?: false
 
-	fun putReceiver(value: Value) {
-		setLocalVariable("this", value)
+	fun putReceiver(receiver: Value) {
+		setLocalVariable("this", receiver)
+
+		if (receiver is ValueClass) receiver.members.forEach { key, _ ->
+			setLocalVariable(key, ValueMemberReference(receiver, key))
+		}
 	}
 }

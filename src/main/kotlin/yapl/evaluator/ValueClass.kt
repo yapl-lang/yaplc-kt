@@ -1,14 +1,14 @@
 package yapl.evaluator
 
-import yapl.parser.ast.AstFunction
-
 class ValueClass(val env: Environment, type: TypeClass) : Value(type) {
 	val members = mutableMapOf<String, Value>()
 
 	private fun bindMethod(name: String): Value? {
-		var clazz = type as TypeClass?
+		var clazz: TypeClass? = type as TypeClass
 		while (clazz != null) {
-			clazz.memberFunctions.firstOrNull { it.function.name?.value == name }?.let {
+			clazz.memberFunctions.firstOrNull {
+				it.function.name?.value == name || it.function.operator?.name == name
+			}?.let {
 				return ValueBindFunction(this, it)
 			}
 

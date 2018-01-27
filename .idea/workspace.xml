@@ -1,7 +1,261 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="030310a7-5a66-4f4d-a95a-ebbcb6cb4f63" name="Default" comment="" />
+    <list default="true" id="030310a7-5a66-4f4d-a95a-ebbcb6cb4f63" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.gitignore" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/kotlin/yapl/parser/AstDebugPrinter.kt" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/build/kotlin-build/artifact-difference.tab" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/build/kotlin-build/artifact-difference.tab.keystream" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/build/kotlin-build/artifact-difference.tab.keystream.len" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/build/kotlin-build/artifact-difference.tab.len" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/build/kotlin-build/artifact-difference.tab.values.at" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/build/kotlin-build/artifact-difference.tab_i" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/build/kotlin-build/artifact-difference.tab_i.len" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/build/kotlin-build/version.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/build/kotlin/kaptGenerateStubsKotlin/build-history.bin" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/build/kotlin/kaptGenerateStubsKotlin/caches-jvm/inputs/source-snapshot.tab" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/build/kotlin/kaptGenerateStubsKotlin/caches-jvm/inputs/source-snapshot.tab.keystream" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/build/kotlin/kaptGenerateStubsKotlin/caches-jvm/inputs/source-snapshot.tab.keystream.len" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/build/kotlin/kaptGenerateStubsKotlin/caches-jvm/inputs/source-snapshot.tab.len" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/build/kotlin/kaptGenerateStubsKotlin/caches-jvm/inputs/source-snapshot.tab.values.at" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/build/kotlin/kaptGenerateStubsKotlin/caches-jvm/inputs/source-snapshot.tab_i" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/build/kotlin/kaptGenerateStubsKotlin/caches-jvm/inputs/source-snapshot.tab_i.len" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/build/kotlin/kaptGenerateStubsKotlin/data-container-format-version.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/build/kotlin/kaptGenerateStubsKotlin/format-version.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/build/kotlin/kaptGenerateStubsKotlin/gradle-format-version.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/build/kotlin/kaptGenerateStubsKotlin/last-build.bin" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/build/tmp/kapt3/stubs/main/error/NonExistentClass.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/build/tmp/kapt3/stubs/main/test/generated/TestGeneratedKt.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/build/tmp/kapt3/stubs/main/yapl/MainKt.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/build/tmp/kapt3/stubs/main/yapl/common/Bound.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/build/tmp/kapt3/stubs/main/yapl/common/CharKt.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/build/tmp/kapt3/stubs/main/yapl/common/Position.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/build/tmp/kapt3/stubs/main/yapl/common/Reader.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/build/tmp/kapt3/stubs/main/yapl/common/ReaderKt.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/build/tmp/kapt3/stubs/main/yapl/common/Source.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/build/tmp/kapt3/stubs/main/yapl/common/string/StringPosition.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/build/tmp/kapt3/stubs/main/yapl/common/string/StringReader.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/build/tmp/kapt3/stubs/main/yapl/common/string/StringSource.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/build/tmp/kapt3/stubs/main/yapl/parser/Parser.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/build/tmp/kapt3/stubs/main/yapl/parser/TokenVisitor.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/build/tmp/kapt3/stubs/main/yapl/parser/Tokenizer.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/build/tmp/kapt3/stubs/main/yapl/parser/ast/Ast.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/build/tmp/kapt3/stubs/main/yapl/parser/ast/AstContainer.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/build/tmp/kapt3/stubs/main/yapl/parser/ast/AstEntry.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/build/tmp/kapt3/stubs/main/yapl/parser/ast/AstError.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/build/tmp/kapt3/stubs/main/yapl/parser/ast/AstProgram.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/build/tmp/kapt3/stubs/main/yapl/parser/token/Token.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/build/tmp/kapt3/stubs/main/yapl/parser/token/TokenError.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/build/tmp/kapt3/stubs/main/yapl/parser/token/TokenIdentifier.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/build/tmp/kapt3/stubs/main/yapl/parser/token/TokenKeyword.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/build/tmp/kapt3/stubs/main/yapl/parser/token/TokenLineComment.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/build/tmp/kapt3/stubs/main/yapl/parser/token/TokenNewline.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/build/tmp/kapt3/stubs/main/yapl/parser/token/TokenOptionalKeyword.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/build/tmp/kapt3/stubs/main/yapl/parser/token/TokenPunctuation.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/build/tmp/kapt3/stubs/main/yapl/parser/token/TokenSemicolon.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/build/tmp/kapt3/stubs/main/yapl/parser/token/TokenWhitespace.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/META-INF/yapl_main.kotlin_module" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/MainKt.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/common/Bound.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/common/CharKt.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/common/Position$DefaultImpls.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/common/Position.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/common/Reader$DefaultImpls.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/common/Reader.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/common/ReaderKt.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/common/Source.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/common/string/StringPosition.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/common/string/StringReader.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/common/string/StringSource.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/evaluator/BinaryOperatorEvaluator$1.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/evaluator/BinaryOperatorEvaluator$10.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/evaluator/BinaryOperatorEvaluator$2.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/evaluator/BinaryOperatorEvaluator$3.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/evaluator/BinaryOperatorEvaluator$4.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/evaluator/BinaryOperatorEvaluator$5.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/evaluator/BinaryOperatorEvaluator$6.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/evaluator/BinaryOperatorEvaluator$7.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/evaluator/BinaryOperatorEvaluator$8.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/evaluator/BinaryOperatorEvaluator$9.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/evaluator/BinaryOperatorEvaluator$OperatorEntry.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/evaluator/BinaryOperatorEvaluator.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/evaluator/Environment.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/evaluator/Evaluator$WhenMappings.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/evaluator/Evaluator$rootEnv$1$1.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/evaluator/Evaluator$rootEnv$1$2.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/evaluator/Evaluator.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/evaluator/Importer.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/evaluator/ScriptImporter.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/evaluator/Type.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/evaluator/TypeArray.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/evaluator/TypeBoolean.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/evaluator/TypeClass.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/evaluator/TypeFunction.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/evaluator/TypeNull.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/evaluator/TypeNumber.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/evaluator/TypeReference.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/evaluator/TypeString.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/evaluator/TypeVoid.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/evaluator/Value.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/evaluator/ValueArray.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/evaluator/ValueBindFunction.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/evaluator/ValueBoolean.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/evaluator/ValueClass.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/evaluator/ValueFunction.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/evaluator/ValueInternalFunction.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/evaluator/ValueMemberReference.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/evaluator/ValueNull.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/evaluator/ValueNumber.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/evaluator/ValueReference.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/evaluator/ValueString.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/evaluator/ValueVarReference.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/evaluator/ValueVoid.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/parser/ParseError.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/parser/Parser$EnterableParseContext.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/parser/Parser$ParseContext$DefaultImpls.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/parser/Parser$ParseContext.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/parser/Parser$currentContext$1.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/parser/Parser$expected$1.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/parser/Parser$expected$2.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/parser/Parser$expectedKeyword$1$1.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/parser/Parser$expectedOptionalKeyword$1$1.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/parser/Parser$expectedPunctuation$1$1.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/parser/Parser$nextIs$1.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/parser/Parser$parse$2$1.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/parser/Parser$parse$2$2.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/parser/Parser$parse$2$3.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/parser/Parser$parse$2.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/parser/Parser$parseArgument$1$name$1$name$1.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/parser/Parser$parseArgument$1.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/parser/Parser$parseAtom$$inlined$parseMaybeCall$1$1.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/parser/Parser$parseAtom$$inlined$parseMaybeCall$1$lambda$1.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/parser/Parser$parseAtom$$inlined$parseMaybeCall$1$lambda$2.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/parser/Parser$parseAtom$$inlined$parseMaybeCall$1$lambda$3.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/parser/Parser$parseAtom$$inlined$parseMaybeCall$1$lambda$4.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/parser/Parser$parseAtom$$inlined$parseMaybeCall$1$lambda$5.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/parser/Parser$parseAtom$$inlined$parseMaybeCall$1.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/parser/Parser$parseBlockExpression$1$1.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/parser/Parser$parseBlockExpression$1.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/parser/Parser$parseClass$1$members$2$1.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/parser/Parser$parseClass$1$members$2.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/parser/Parser$parseClass$1$primaryConstructor$1.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/parser/Parser$parseClass$1.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/parser/Parser$parseConstructor$1$name$1.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/parser/Parser$parseConstructor$1.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/parser/Parser$parseDeclaration$1.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/parser/Parser$parseDeclaration$2.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/parser/Parser$parseDeclaration$3.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/parser/Parser$parseDeclarationModifier$1.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/parser/Parser$parseDeclarationModifiers$1$1.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/parser/Parser$parseDeclarationModifiers$1.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/parser/Parser$parseDotDelimitedName$1.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/parser/Parser$parseExpression$$inlined$parseMaybeCall$1$1.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/parser/Parser$parseExpression$$inlined$parseMaybeCall$1.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/parser/Parser$parseFunction$1$name$1.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/parser/Parser$parseFunction$1.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/parser/Parser$parseFunctionParameter$1.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/parser/Parser$parseFunctionParameters$2.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/parser/Parser$parseFunctionReturnTypes$3.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/parser/Parser$parseIf$1.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/parser/Parser$parseImport$1$children$1.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/parser/Parser$parseImport$1.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/parser/Parser$parseMaybeBinary$1$2$method$1.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/parser/Parser$parseMaybeBinary$1.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/parser/Parser$parseMaybeCall$1$arguments$2.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/parser/Parser$parseMaybeCall$1.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/parser/Parser$parseMaybeVariantTypeReference$1$1.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/parser/Parser$parseMaybeVariantTypeReference$1.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/parser/Parser$parseName$1.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/parser/Parser$parseNamedTypeReference$1.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/parser/Parser$parsePackage$1.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/parser/Parser$parsePrimaryConstructor$1.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/parser/Parser$parseReturn$1$expressions$1.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/parser/Parser$parseReturn$1.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/parser/Parser$parseVariableDeclaration$1.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/parser/Parser$selectOperator$1.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/parser/Parser$skip$1.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/parser/Parser$skipWhitespace$1.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/parser/Parser$take$1.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/parser/Parser.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/parser/Presets.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/parser/TokenStream$TokenStreamContext.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/parser/TokenStream.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/parser/TokenVisitor$DefaultImpls.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/parser/TokenVisitor.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/parser/Tokenizer$tokenize$1$1.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/parser/Tokenizer$tokenize$1$bound$2.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/parser/Tokenizer$tokenize$1.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/parser/Tokenizer.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/parser/ast/AstAbstractImport.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/parser/ast/AstArgument.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/parser/ast/AstBinaryCall.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/parser/ast/AstBinaryOperator.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/parser/ast/AstCallExpression.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/parser/ast/AstCharLiteralExpression.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/parser/ast/AstClass.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/parser/ast/AstClassConstructor.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/parser/ast/AstCompoundExpression.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/parser/ast/AstDeclaration.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/parser/ast/AstDeclarationModifier.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/parser/ast/AstDeclarationModifiers.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/parser/ast/AstDotDelimitedName$value$2.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/parser/ast/AstDotDelimitedName.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/parser/ast/AstError.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/parser/ast/AstExpression.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/parser/ast/AstFunction.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/parser/ast/AstFunctionParameter.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/parser/ast/AstIfExpression.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/parser/ast/AstImport.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/parser/ast/AstImportGroup$computeImports$$inlined$apply$lambda$1.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/parser/ast/AstImportGroup.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/parser/ast/AstName.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/parser/ast/AstNamedTypeReference.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/parser/ast/AstNode.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/parser/ast/AstNodeListKt.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/parser/ast/AstNumberLiteralExpression.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/parser/ast/AstPackage.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/parser/ast/AstProgram.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/parser/ast/AstReferenceExpression.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/parser/ast/AstReturnExpression.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/parser/ast/AstStringLiteralExpression.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/parser/ast/AstTypeReference.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/parser/ast/AstVariableDeclaration.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/parser/ast/AstVariantType.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/parser/operator/BinaryOperator.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/parser/operator/BinaryOperatorKt.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/parser/operator/Operator$Type.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/parser/operator/Operator.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/parser/operator/OperatorKt.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/parser/operator/OperatorSet.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/parser/token/Token.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/parser/token/TokenCharLiteral.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/parser/token/TokenError.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/parser/token/TokenIdentifier.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/parser/token/TokenKeyword.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/parser/token/TokenKt.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/parser/token/TokenLineComment.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/parser/token/TokenNewline.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/parser/token/TokenNumberLiteral.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/parser/token/TokenOptionalKeyword.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/parser/token/TokenPunctuation.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/parser/token/TokenSemicolon.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/parser/token/TokenStringLiteral.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/classes/yapl/parser/token/TokenWhitespace.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/codegen/META-INF/services/javax.annotation.processing.Processor" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/kotlin/yapl/evaluator/BinaryOperatorEvaluator.kt" afterPath="$PROJECT_DIR$/src/main/kotlin/yapl/evaluator/BinaryOperatorEvaluator.kt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/kotlin/yapl/evaluator/Environment.kt" afterPath="$PROJECT_DIR$/src/main/kotlin/yapl/evaluator/Environment.kt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/kotlin/yapl/evaluator/Evaluator.kt" afterPath="$PROJECT_DIR$/src/main/kotlin/yapl/evaluator/Evaluator.kt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/kotlin/yapl/evaluator/ScriptImporter.kt" afterPath="$PROJECT_DIR$/src/main/kotlin/yapl/evaluator/ScriptImporter.kt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/kotlin/yapl/evaluator/TypeClass.kt" afterPath="$PROJECT_DIR$/src/main/kotlin/yapl/evaluator/TypeClass.kt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/kotlin/yapl/evaluator/ValueClass.kt" afterPath="$PROJECT_DIR$/src/main/kotlin/yapl/evaluator/ValueClass.kt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/kotlin/yapl/parser/Parser.kt" afterPath="$PROJECT_DIR$/src/main/kotlin/yapl/parser/Parser.kt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/kotlin/yapl/parser/ast/AstNode.kt" afterPath="$PROJECT_DIR$/src/main/kotlin/yapl/parser/ast/AstNode.kt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/kotlin/yapl/parser/operator/Operator.kt" afterPath="$PROJECT_DIR$/src/main/kotlin/yapl/parser/operator/Operator.kt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/yapl/example/helloworld/Test.yapl" afterPath="$PROJECT_DIR$/test/yapl/example/helloworld/Test.yapl" />
+    </list>
     <ignored path="$PROJECT_DIR$/.gradle/" />
     <ignored path="$PROJECT_DIR$/build/" />
     <ignored path="$PROJECT_DIR$/codegen/.gradle/" />
@@ -58,8 +312,8 @@
       <file leaf-file-name="Evaluator.kt" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/kotlin/yapl/evaluator/Evaluator.kt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="6966">
-              <caret line="260" column="0" lean-forward="false" selection-start-line="260" selection-start-column="0" selection-end-line="260" selection-end-column="0" />
+            <state relative-caret-position="175">
+              <caret line="59" column="0" lean-forward="false" selection-start-line="59" selection-start-column="0" selection-end-line="59" selection-end-column="0" />
               <folding>
                 <element signature="e#24#119#0" expanded="true" />
               </folding>
@@ -70,8 +324,8 @@
       <file leaf-file-name="TypeClass.kt" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/kotlin/yapl/evaluator/TypeClass.kt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="289">
-              <caret line="12" column="43" lean-forward="false" selection-start-line="12" selection-start-column="43" selection-end-line="12" selection-end-column="43" />
+            <state relative-caret-position="286">
+              <caret line="13" column="0" lean-forward="false" selection-start-line="13" selection-start-column="0" selection-end-line="13" selection-end-column="0" />
               <folding>
                 <element signature="e#24#90#0" expanded="true" />
               </folding>
@@ -79,66 +333,44 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ScriptImporter.kt" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/kotlin/yapl/evaluator/ScriptImporter.kt">
+      <file leaf-file-name="ValueClass.kt" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/kotlin/yapl/evaluator/ValueClass.kt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="101">
-              <caret line="21" column="0" lean-forward="false" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
+            <state relative-caret-position="176">
+              <caret line="8" column="0" lean-forward="false" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Environment.kt" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/kotlin/yapl/evaluator/Environment.kt">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="221">
-              <caret line="34" column="0" lean-forward="false" selection-start-line="34" selection-start-column="0" selection-end-line="34" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Presets.kt" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/kotlin/yapl/parser/Presets.kt">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="108">
-              <caret line="7" column="30" lean-forward="false" selection-start-line="7" selection-start-column="30" selection-end-line="7" selection-end-column="30" />
-              <folding>
-                <element signature="e#21#131#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Test.yapl" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Test.yapl" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/test/yapl/example/helloworld/Test.yapl">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="519">
-              <caret line="34" column="31" lean-forward="false" selection-start-line="34" selection-start-column="31" selection-end-line="34" selection-end-column="31" />
+            <state relative-caret-position="-427">
+              <caret line="24" column="0" lean-forward="false" selection-start-line="24" selection-start-column="0" selection-end-line="24" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Parser.kt" pinned="false" current-in-tab="false">
+      <file leaf-file-name="main.kt" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/kotlin/yapl/main.kt">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="132">
+              <caret line="11" column="0" lean-forward="false" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Parser.kt" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/kotlin/yapl/parser/Parser.kt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="108">
-              <caret line="434" column="49" lean-forward="false" selection-start-line="434" selection-start-column="42" selection-end-line="434" selection-end-column="49" />
+            <state relative-caret-position="-829">
+              <caret line="419" column="21" lean-forward="false" selection-start-line="419" selection-start-column="21" selection-end-line="419" selection-end-column="21" />
               <folding>
                 <element signature="e#21#275#0" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="TokenStream.kt" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/kotlin/yapl/parser/TokenStream.kt">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2160">
-              <caret line="81" column="0" lean-forward="false" selection-start-line="81" selection-start-column="0" selection-end-line="81" selection-end-column="0" />
-              <folding />
             </state>
           </provider>
         </entry>
@@ -158,16 +390,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>parseTypeReference</find>
-      <find>if</find>
-      <find>parseif</find>
-      <find>parseOptio</find>
-      <find>variable</find>
-      <find>functionparamter</find>
-      <find>println</find>
-      <find>Keywords</find>
-      <find>AstDeclara</find>
-      <find>parseMaybeCall</find>
       <find>parseoptional</find>
       <find>parse</find>
       <find>entered</find>
@@ -188,6 +410,16 @@
       <find>parseClass</find>
       <find>parsefunc</find>
       <find>binaryo</find>
+      <find>ValueFunction</find>
+      <find>ValueFunction\(</find>
+      <find>class</find>
+      <find>evalEnv.</find>
+      <find>assignParams</find>
+      <find>binaryope</find>
+      <find>parent</find>
+      <find>skipwhitespace&lt;TokenN</find>
+      <find>skipNewline</find>
+      <find>parseCall</find>
     </findStrings>
     <replaceStrings>
       <replace>'</replace>
@@ -197,6 +429,9 @@
       <dir>$PROJECT_DIR$/src/main/kotlin/yapl/parser/token</dir>
       <dir>$PROJECT_DIR$/src/main/kotlin/yapl/parser/ast</dir>
     </dirStrings>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="GradleLocalSettings">
     <option name="myGradleHomes">
@@ -607,10 +842,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/main/kotlin/yapl/parser/ast/AstVariantType.kt" />
-        <option value="$PROJECT_DIR$/src/main/kotlin/yapl/parser/ast/AstProgram.kt" />
-        <option value="$PROJECT_DIR$/src/main/kotlin/yapl/parser/ast/AstIfExpression.kt" />
-        <option value="$PROJECT_DIR$/src/main/kotlin/yapl/parser/ast/AstReturnExpression.kt" />
         <option value="$PROJECT_DIR$/src/main/kotlin/yapl/parser/AstVisitor.kt" />
         <option value="$PROJECT_DIR$/src/main/kotlin/yapl/evaluator/ValueLiteral.kt" />
         <option value="$PROJECT_DIR$/src/main/kotlin/yapl/evaluator/ValueBool.kt" />
@@ -638,9 +869,7 @@
         <option value="$PROJECT_DIR$/src/main/kotlin/yapl/parser/ast/AstClassConstructor.kt" />
         <option value="$PROJECT_DIR$/src/main/kotlin/yapl/parser/ast/AstClass.kt" />
         <option value="$PROJECT_DIR$/src/main/kotlin/yapl/parser/operator/BinaryOperator.kt" />
-        <option value="$PROJECT_DIR$/src/main/kotlin/yapl/evaluator/ScriptImporter.kt" />
         <option value="$PROJECT_DIR$/src/main/kotlin/yapl/main.kt" />
-        <option value="$PROJECT_DIR$/src/main/kotlin/yapl/evaluator/BinaryOperatorEvaluator.kt" />
         <option value="$PROJECT_DIR$/src/main/kotlin/yapl/evaluator/Type.kt" />
         <option value="$PROJECT_DIR$/src/main/kotlin/yapl/evaluator/ValueReference.kt" />
         <option value="$PROJECT_DIR$/src/main/kotlin/yapl/evaluator/ValueVarReference.kt" />
@@ -650,14 +879,20 @@
         <option value="$PROJECT_DIR$/src/main/kotlin/yapl/parser/Tokenizer.kt" />
         <option value="$PROJECT_DIR$/src/main/kotlin/yapl/parser/Presets.kt" />
         <option value="$PROJECT_DIR$/src/main/kotlin/yapl/evaluator/ValueBindFunction.kt" />
-        <option value="$PROJECT_DIR$/src/main/kotlin/yapl/evaluator/Environment.kt" />
         <option value="$PROJECT_DIR$/src/main/kotlin/yapl/evaluator/ValueFunction.kt" />
         <option value="$PROJECT_DIR$/src/main/kotlin/yapl/evaluator/ValueMemberReference.kt" />
+        <option value="$PROJECT_DIR$/src/main/kotlin/yapl/evaluator/ScriptImporter.kt" />
+        <option value="$PROJECT_DIR$/src/main/kotlin/yapl/parser/AstDebugPrinter.kt" />
+        <option value="$PROJECT_DIR$/src/main/kotlin/yapl/parser/ast/AstNode.kt" />
+        <option value="$PROJECT_DIR$/src/main/kotlin/yapl/evaluator/Environment.kt" />
+        <option value="$PROJECT_DIR$/src/main/kotlin/yapl/parser/operator/Operator.kt" />
+        <option value="$PROJECT_DIR$/src/main/kotlin/yapl/evaluator/BinaryOperatorEvaluator.kt" />
+        <option value="$PROJECT_DIR$/src/main/kotlin/yapl/evaluator/ValueClass.kt" />
         <option value="$PROJECT_DIR$/src/main/kotlin/yapl/evaluator/Evaluator.kt" />
         <option value="$PROJECT_DIR$/src/main/kotlin/yapl/evaluator/TypeClass.kt" />
-        <option value="$PROJECT_DIR$/src/main/kotlin/yapl/evaluator/ValueClass.kt" />
-        <option value="$PROJECT_DIR$/src/main/kotlin/yapl/parser/Parser.kt" />
         <option value="$PROJECT_DIR$/test/yapl/example/helloworld/Test.yapl" />
+        <option value="$PROJECT_DIR$/src/main/kotlin/yapl/parser/Parser.kt" />
+        <option value="$PROJECT_DIR$/.gitignore" />
       </list>
     </option>
   </component>
@@ -677,6 +912,53 @@
     <option name="width" value="1201" />
     <option name="height" value="635" />
   </component>
+  <component name="ProjectInspectionProfilesVisibleTreeState">
+    <entry key="Project Default">
+      <profile-state>
+        <expanded-state>
+          <State>
+            <id />
+          </State>
+          <State>
+            <id>Android</id>
+          </State>
+          <State>
+            <id>Android &gt; Lint &gt; Correctness</id>
+          </State>
+          <State>
+            <id>Android &gt; Lint &gt; Internationalization</id>
+          </State>
+          <State>
+            <id>Android &gt; Lint &gt; Security</id>
+          </State>
+          <State>
+            <id>Android Lint for Kotlin</id>
+          </State>
+          <State>
+            <id>CorrectnessLintAndroid</id>
+          </State>
+          <State>
+            <id>Gradle</id>
+          </State>
+          <State>
+            <id>Kotlin</id>
+          </State>
+          <State>
+            <id>LintAndroid</id>
+          </State>
+          <State>
+            <id>Probable bugsGradle</id>
+          </State>
+        </expanded-state>
+        <selected-state>
+          <State>
+            <id>Android</id>
+          </State>
+        </selected-state>
+      </profile-state>
+    </entry>
+  </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
     <navigator currentView="ProjectPane" proportions="" version="1">
       <flattenPackages />
@@ -692,6 +974,51 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="PackagesPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="yapl" type="58d84e3e:PackageViewProjectNode" />
+              <item name="yapl" type="eaaa3913:PackageViewModuleGroupNode" />
+            </path>
+            <path>
+              <item name="yapl" type="58d84e3e:PackageViewProjectNode" />
+              <item name="yapl" type="eaaa3913:PackageViewModuleGroupNode" />
+              <item name="yapl_main" type="616d4139:PackageViewModuleNode" />
+            </path>
+            <path>
+              <item name="yapl" type="58d84e3e:PackageViewProjectNode" />
+              <item name="yapl" type="eaaa3913:PackageViewModuleGroupNode" />
+              <item name="yapl_main" type="616d4139:PackageViewModuleNode" />
+              <item name="yapl" type="1f31426a:PackageElementNode" />
+            </path>
+            <path>
+              <item name="yapl" type="58d84e3e:PackageViewProjectNode" />
+              <item name="yapl" type="eaaa3913:PackageViewModuleGroupNode" />
+              <item name="yapl_main" type="616d4139:PackageViewModuleNode" />
+              <item name="yapl" type="1f31426a:PackageElementNode" />
+              <item name="evaluator" type="1f31426a:PackageElementNode" />
+            </path>
+            <path>
+              <item name="yapl" type="58d84e3e:PackageViewProjectNode" />
+              <item name="yapl" type="eaaa3913:PackageViewModuleGroupNode" />
+              <item name="yapl_main" type="616d4139:PackageViewModuleNode" />
+              <item name="yapl" type="1f31426a:PackageElementNode" />
+              <item name="parser" type="1f31426a:PackageElementNode" />
+            </path>
+            <path>
+              <item name="yapl" type="58d84e3e:PackageViewProjectNode" />
+              <item name="yapl" type="eaaa3913:PackageViewModuleGroupNode" />
+              <item name="yapl_main" type="616d4139:PackageViewModuleNode" />
+              <item name="yapl" type="1f31426a:PackageElementNode" />
+              <item name="parser" type="1f31426a:PackageElementNode" />
+              <item name="ast" type="1f31426a:PackageElementNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -751,27 +1078,7 @@
               <item name="kotlin" type="462c0819:PsiDirectoryNode" />
               <item name="yapl" type="462c0819:PsiDirectoryNode" />
               <item name="parser" type="462c0819:PsiDirectoryNode" />
-              <item name="ast" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="yapl" type="b2602c69:ProjectViewProjectNode" />
-              <item name="yapl" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="kotlin" type="462c0819:PsiDirectoryNode" />
-              <item name="yapl" type="462c0819:PsiDirectoryNode" />
-              <item name="parser" type="462c0819:PsiDirectoryNode" />
               <item name="operator" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="yapl" type="b2602c69:ProjectViewProjectNode" />
-              <item name="yapl" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="kotlin" type="462c0819:PsiDirectoryNode" />
-              <item name="yapl" type="462c0819:PsiDirectoryNode" />
-              <item name="parser" type="462c0819:PsiDirectoryNode" />
-              <item name="token" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="yapl" type="b2602c69:ProjectViewProjectNode" />
@@ -803,57 +1110,12 @@
           <select />
         </subPane>
       </pane>
-      <pane id="PackagesPane">
-        <subPane>
-          <expand>
-            <path>
-              <item name="yapl" type="58d84e3e:PackageViewProjectNode" />
-              <item name="yapl" type="eaaa3913:PackageViewModuleGroupNode" />
-            </path>
-            <path>
-              <item name="yapl" type="58d84e3e:PackageViewProjectNode" />
-              <item name="yapl" type="eaaa3913:PackageViewModuleGroupNode" />
-              <item name="yapl_main" type="616d4139:PackageViewModuleNode" />
-            </path>
-            <path>
-              <item name="yapl" type="58d84e3e:PackageViewProjectNode" />
-              <item name="yapl" type="eaaa3913:PackageViewModuleGroupNode" />
-              <item name="yapl_main" type="616d4139:PackageViewModuleNode" />
-              <item name="yapl" type="1f31426a:PackageElementNode" />
-            </path>
-            <path>
-              <item name="yapl" type="58d84e3e:PackageViewProjectNode" />
-              <item name="yapl" type="eaaa3913:PackageViewModuleGroupNode" />
-              <item name="yapl_main" type="616d4139:PackageViewModuleNode" />
-              <item name="yapl" type="1f31426a:PackageElementNode" />
-              <item name="evaluator" type="1f31426a:PackageElementNode" />
-            </path>
-            <path>
-              <item name="yapl" type="58d84e3e:PackageViewProjectNode" />
-              <item name="yapl" type="eaaa3913:PackageViewModuleGroupNode" />
-              <item name="yapl_main" type="616d4139:PackageViewModuleNode" />
-              <item name="yapl" type="1f31426a:PackageElementNode" />
-              <item name="parser" type="1f31426a:PackageElementNode" />
-            </path>
-            <path>
-              <item name="yapl" type="58d84e3e:PackageViewProjectNode" />
-              <item name="yapl" type="eaaa3913:PackageViewModuleGroupNode" />
-              <item name="yapl_main" type="616d4139:PackageViewModuleNode" />
-              <item name="yapl" type="1f31426a:PackageElementNode" />
-              <item name="parser" type="1f31426a:PackageElementNode" />
-              <item name="ast" type="1f31426a:PackageElementNode" />
-            </path>
-          </expand>
-          <select />
-        </subPane>
-      </pane>
-      <pane id="Scratches" />
       <pane id="AndroidView" />
       <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="settings.editor.selected.configurable" value="preferences.sourceCode.Kotlin" />
+    <property name="settings.editor.selected.configurable" value="reference.settingsdialog.IDE.editor.colors.Console Font" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
@@ -1219,28 +1481,28 @@
     </history-entry>
   </component>
   <component name="ToolWindowManager">
-    <frame x="34" y="48" width="1366" height="720" extended-state="6" />
-    <editor active="true" />
+    <frame x="0" y="48" width="1366" height="720" extended-state="6" />
     <layout>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32478634" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3240418" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3220339" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32881355" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32991454" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="FLOATING" visible="true" show_stripe_button="true" weight="0.32136753" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" x="1753" y="192" width="1314" height="846" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33162394" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24809742" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2526636" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32724506" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.38474578" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="WINDOWED" visible="false" show_stripe_button="true" weight="0.3846154" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" x="1847" y="70" width="1364" height="1010" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Nl-Palette" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -1248,8 +1510,8 @@
       <window_info id="Kotlin Bytecode" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.21689498" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Properties" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32542372" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Thumbnails" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.32991454" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Coverage" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32876712" sideWeight="0.5" order="9" side_tool="true" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32715008" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
@@ -1260,26 +1522,33 @@
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
   </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Update" />
+    <option name="LAST_COMMIT_MESSAGE" value="Update" />
+  </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="kotlin-line">
           <url>file://$PROJECT_DIR$/src/main/kotlin/yapl/evaluator/Evaluator.kt</url>
-          <line>282</line>
+          <line>297</line>
           <properties />
           <option name="timeStamp" value="120" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="kotlin-line">
           <url>file://$PROJECT_DIR$/src/main/kotlin/yapl/evaluator/Evaluator.kt</url>
-          <line>216</line>
+          <line>111</line>
           <properties />
-          <option name="timeStamp" value="167" />
+          <option name="timeStamp" value="193" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" type="kotlin-line">
-          <url>file://$PROJECT_DIR$/src/main/kotlin/yapl/evaluator/ScriptImporter.kt</url>
-          <line>24</line>
-          <properties />
-          <option name="timeStamp" value="185" />
+        <line-breakpoint enabled="true" type="kotlin-field">
+          <url>file://$PROJECT_DIR$/src/main/kotlin/yapl/evaluator/TypeClass.kt</url>
+          <line>13</line>
+          <properties myFieldName="memberFunctions" myClassName="yapl.evaluator.TypeClass">
+            <option name="WATCH_INITIALIZATION" value="true" />
+            <option name="WATCH_MODIFICATION" value="false" />
+          </properties>
+          <option name="timeStamp" value="195" />
         </line-breakpoint>
       </breakpoints>
       <breakpoints-dialog>
@@ -1299,11 +1568,12 @@
           </properties>
         </breakpoint>
       </default-breakpoints>
-      <option name="time" value="186" />
+      <option name="time" value="199" />
     </breakpoint-manager>
     <watches-manager>
       <configuration name="Application">
         <watch expression="tokens.position.toString()" language="kotlin" />
+        <watch expression="tokens.peek()" language="kotlin" />
       </configuration>
     </watches-manager>
   </component>
@@ -1312,69 +1582,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/main/kotlin/yapl/parser/ast/AstBinaryOperator.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="192">
-          <caret line="8" column="39" lean-forward="false" selection-start-line="8" selection-start-column="39" selection-end-line="8" selection-end-column="39" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/kotlin/yapl/parser/ast/AstArgument.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="96">
-          <caret line="4" column="32" lean-forward="true" selection-start-line="4" selection-start-column="32" selection-end-line="4" selection-end-column="32" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/kotlin/yapl/parser/ast/AstNode.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="96">
-          <caret line="5" column="15" lean-forward="false" selection-start-line="5" selection-start-column="15" selection-end-line="5" selection-end-column="15" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/kotlin/yapl/parser/ast/AstDeclaration.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="96">
-          <caret line="4" column="31" lean-forward="true" selection-start-line="4" selection-start-column="31" selection-end-line="4" selection-end-column="31" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/1.2.0/180a4946e471f9f47d4b6139c5dbc5e7603a8424/kotlin-stdlib-1.2.0-sources.jar!/kotlin/reflect/KClass.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="144">
-          <caret line="26" column="17" lean-forward="false" selection-start-line="26" selection-start-column="17" selection-end-line="26" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/kotlin/yapl/parser/ast/AstVariableDeclaration.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="72">
-          <caret line="3" column="56" lean-forward="false" selection-start-line="3" selection-start-column="56" selection-end-line="3" selection-end-column="56" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/kotlin/yapl/parser/ast/AstDeclarationModifiers.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="5" column="57" lean-forward="false" selection-start-line="5" selection-start-column="57" selection-end-line="5" selection-end-column="57" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/kotlin/yapl/evaluator/ValueBoolean.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="48">
-          <caret line="2" column="0" lean-forward="false" selection-start-line="2" selection-start-column="0" selection-end-line="4" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/1.2.0/180a4946e471f9f47d4b6139c5dbc5e7603a8424/kotlin-stdlib-1.2.0-sources.jar!/generated/_Arrays.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="103">
-          <caret line="8766" column="34" lean-forward="false" selection-start-line="8766" selection-start-column="34" selection-end-line="8766" selection-end-column="34" />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/1.2.0/180a4946e471f9f47d4b6139c5dbc5e7603a8424/kotlin-stdlib-1.2.0-sources.jar!/kotlin/io/Console.kt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="125">
@@ -1421,6 +1628,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="168">
           <caret line="7" column="19" lean-forward="false" selection-start-line="7" selection-start-column="19" selection-end-line="7" selection-end-column="19" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1474,20 +1682,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/kotlin/yapl/parser/ast/AstCallExpression.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="48">
-          <caret line="2" column="11" lean-forward="false" selection-start-line="2" selection-start-column="11" selection-end-line="2" selection-end-column="11" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/kotlin/yapl/evaluator/BinaryOperatorEvaluator.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="51" column="9" lean-forward="false" selection-start-line="51" selection-start-column="9" selection-end-line="51" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/kotlin/yapl/evaluator/Type.kt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="232">
@@ -1514,6 +1708,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="144">
           <caret line="6" column="1" lean-forward="true" selection-start-line="6" selection-start-column="1" selection-end-line="6" selection-end-column="1" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1528,23 +1723,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="120">
           <caret line="5" column="57" lean-forward="false" selection-start-line="5" selection-start-column="24" selection-end-line="5" selection-end-column="57" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/kotlin/yapl/main.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="7" column="26" lean-forward="false" selection-start-line="7" selection-start-column="26" selection-end-line="7" selection-end-column="26" />
-          <folding>
-            <element signature="e#14#227#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/kotlin/yapl/parser/operator/BinaryOperator.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="515">
-          <caret line="30" column="4" lean-forward="false" selection-start-line="30" selection-start-column="4" selection-end-line="30" selection-end-column="4" />
         </state>
       </provider>
     </entry>
@@ -1563,17 +1741,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/kotlin/yapl/parser/ast/AstFunction.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="2" column="36" lean-forward="true" selection-start-line="2" selection-start-column="36" selection-end-line="2" selection-end-column="36" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/kotlin/yapl/evaluator/ValueInternalFunction.kt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="123">
           <caret line="5" column="8" lean-forward="false" selection-start-line="5" selection-start-column="8" selection-end-line="5" selection-end-column="8" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1581,13 +1753,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="162">
           <caret line="6" column="36" lean-forward="false" selection-start-line="6" selection-start-column="36" selection-end-line="6" selection-end-column="36" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/kotlin/yapl/evaluator/ValueFunction.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
-          <caret line="5" column="0" lean-forward="false" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1598,89 +1764,208 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/kotlin/yapl/parser/TokenStream.kt">
+    <entry file="file://$PROJECT_DIR$/src/main/kotlin/yapl/parser/Presets.kt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2160">
-          <caret line="81" column="0" lean-forward="false" selection-start-line="81" selection-start-column="0" selection-end-line="81" selection-end-column="0" />
+        <state relative-caret-position="0">
+          <caret line="3" column="31" lean-forward="false" selection-start-line="3" selection-start-column="31" selection-end-line="3" selection-end-column="31" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/kotlin/yapl/evaluator/Evaluator.kt">
+    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/1.2.0/180a4946e471f9f47d4b6139c5dbc5e7603a8424/kotlin-stdlib-1.2.0-sources.jar!/kotlin/reflect/KProperty.kt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="6966">
-          <caret line="260" column="0" lean-forward="false" selection-start-line="260" selection-start-column="0" selection-end-line="260" selection-end-column="0" />
-          <folding>
-            <element signature="e#24#119#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="191">
+          <caret line="134" column="15" lean-forward="false" selection-start-line="134" selection-start-column="15" selection-end-line="134" selection-end-column="15" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/kotlin/yapl/evaluator/ValueMemberReference.kt">
+    <entry file="jar:///usr/lib/jvm/java-8-openjdk-amd64/jre/lib/rt.jar!/java/io/StringWriter.class">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="189">
-          <caret line="7" column="8" lean-forward="false" selection-start-line="7" selection-start-column="8" selection-end-line="7" selection-end-column="8" />
+        <state relative-caret-position="110">
+          <caret line="15" column="11" lean-forward="false" selection-start-line="15" selection-start-column="11" selection-end-line="15" selection-end-column="11" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/kotlin/yapl/evaluator/ValueClass.kt">
+    <entry file="file://$PROJECT_DIR$/src/main/kotlin/yapl/parser/ast/AstNodeList.kt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-135">
-          <caret line="9" column="31" lean-forward="false" selection-start-line="9" selection-start-column="31" selection-end-line="9" selection-end-column="31" />
+        <state relative-caret-position="54">
+          <caret line="2" column="10" lean-forward="false" selection-start-line="2" selection-start-column="10" selection-end-line="2" selection-end-column="10" />
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/kotlin/yapl/parser/Parser.kt">
+    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/1.2.0/180a4946e471f9f47d4b6139c5dbc5e7603a8424/kotlin-stdlib-1.2.0-sources.jar!/kotlin/util/Lateinit.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-108">
+          <caret line="5" column="7" lean-forward="true" selection-start-line="5" selection-start-column="7" selection-end-line="5" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/kotlin/yapl/parser/ast/AstBinaryOperator.kt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="108">
-          <caret line="434" column="49" lean-forward="false" selection-start-line="434" selection-start-column="42" selection-end-line="434" selection-end-column="49" />
+          <caret line="4" column="11" lean-forward="false" selection-start-line="4" selection-start-column="11" selection-end-line="4" selection-end-column="11" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/kotlin/yapl/parser/ast/AstNode.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="110">
+          <caret line="6" column="71" lean-forward="false" selection-start-line="6" selection-start-column="71" selection-end-line="6" selection-end-column="71" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/kotlin/yapl/parser/AstDebugPrinter.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="21">
+          <caret line="53" column="28" lean-forward="false" selection-start-line="53" selection-start-column="28" selection-end-line="53" selection-end-column="28" />
           <folding>
-            <element signature="e#21#275#0" expanded="true" />
+            <element signature="e#21#219#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/kotlin/yapl/parser/Presets.kt">
+    <entry file="file://$PROJECT_DIR$/src/main/kotlin/yapl/evaluator/ValueFunction.kt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="108">
-          <caret line="7" column="30" lean-forward="false" selection-start-line="7" selection-start-column="30" selection-end-line="7" selection-end-column="30" />
-          <folding>
-            <element signature="e#21#131#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="88">
+          <caret line="4" column="24" lean-forward="false" selection-start-line="4" selection-start-column="11" selection-end-line="4" selection-end-column="24" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/kotlin/yapl/evaluator/Environment.kt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
-          <caret line="34" column="0" lean-forward="false" selection-start-line="34" selection-start-column="0" selection-end-line="34" selection-end-column="0" />
+        <state relative-caret-position="-103">
+          <caret line="21" column="0" lean-forward="true" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/kotlin/yapl/evaluator/ValueMemberReference.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="88">
+          <caret line="4" column="26" lean-forward="true" selection-start-line="4" selection-start-column="26" selection-end-line="4" selection-end-column="26" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/kotlin/yapl/parser/ast/AstCallExpression.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="44">
+          <caret line="2" column="28" lean-forward="false" selection-start-line="2" selection-start-column="28" selection-end-line="2" selection-end-column="28" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/kotlin/yapl/parser/ast/AstFunction.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="154">
+          <caret line="7" column="25" lean-forward="false" selection-start-line="7" selection-start-column="25" selection-end-line="7" selection-end-column="25" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/kotlin/yapl/parser/operator/Operator.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="198">
+          <caret line="9" column="20" lean-forward="false" selection-start-line="9" selection-start-column="20" selection-end-line="9" selection-end-column="20" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/kotlin/yapl/parser/operator/BinaryOperator.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="44">
+          <caret line="2" column="103" lean-forward="true" selection-start-line="2" selection-start-column="103" selection-end-line="2" selection-end-column="103" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/kotlin/yapl/evaluator/BinaryOperatorEvaluator.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="66" column="19" lean-forward="false" selection-start-line="66" selection-start-column="19" selection-end-line="66" selection-end-column="19" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/kotlin/yapl/evaluator/ScriptImporter.kt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="101">
-          <caret line="21" column="0" lean-forward="false" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
+        <state relative-caret-position="396">
+          <caret line="29" column="16" lean-forward="false" selection-start-line="29" selection-start-column="16" selection-end-line="29" selection-end-column="16" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/kotlin/yapl/evaluator/Evaluator.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="175">
+          <caret line="59" column="0" lean-forward="false" selection-start-line="59" selection-start-column="0" selection-end-line="59" selection-end-column="0" />
+          <folding>
+            <element signature="e#24#119#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/kotlin/yapl/parser/TokenStream.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-277">
+          <caret line="52" column="8" lean-forward="false" selection-start-line="52" selection-start-column="8" selection-end-line="52" selection-end-column="8" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/kotlin/yapl/evaluator/TypeClass.kt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="289">
-          <caret line="12" column="43" lean-forward="false" selection-start-line="12" selection-start-column="43" selection-end-line="12" selection-end-column="43" />
+        <state relative-caret-position="286">
+          <caret line="13" column="0" lean-forward="false" selection-start-line="13" selection-start-column="0" selection-end-line="13" selection-end-column="0" />
           <folding>
             <element signature="e#24#90#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/kotlin/yapl/evaluator/ValueClass.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="176">
+          <caret line="8" column="0" lean-forward="false" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/test/yapl/example/helloworld/Test.yapl">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="519">
-          <caret line="34" column="31" lean-forward="false" selection-start-line="34" selection-start-column="31" selection-end-line="34" selection-end-column="31" />
+        <state relative-caret-position="-427">
+          <caret line="24" column="0" lean-forward="false" selection-start-line="24" selection-start-column="0" selection-end-line="24" selection-end-column="0" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/kotlin/yapl/main.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="132">
+          <caret line="11" column="0" lean-forward="false" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-9">
+          <caret line="52" column="0" lean-forward="false" selection-start-line="52" selection-start-column="0" selection-end-line="52" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/kotlin/yapl/parser/Parser.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-829">
+          <caret line="419" column="21" lean-forward="false" selection-start-line="419" selection-start-column="21" selection-end-line="419" selection-end-column="21" />
+          <folding>
+            <element signature="e#21#275#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

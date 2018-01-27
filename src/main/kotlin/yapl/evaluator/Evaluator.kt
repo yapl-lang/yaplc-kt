@@ -5,7 +5,7 @@ import yapl.parser.operator.BinaryOperator
 import java.math.BigDecimal
 
 class Evaluator(vararg val importers: Importer) {
-	private val binaryOperatorEvaluator = BinaryOperatorEvaluator()
+	private val binaryOperatorEvaluator = BinaryOperatorEvaluator(this)
 
 	val rootEnv = Environment().apply {
 		createVariable("Array", TypeArray)
@@ -57,8 +57,10 @@ class Evaluator(vararg val importers: Importer) {
 	private fun Environment.applyDeclaration(declaration: AstDeclaration) {
 		val name = declaration.name ?: return
 		when (declaration) {
-			is AstClass    -> createVariable(name.value,
-					TypeClass(this@Evaluator, this, declaration))
+			is AstClass    -> TypeClass(this@Evaluator, this, declaration).let {
+				setLocalVariable("this", it)
+				createVariable(name.value, it)
+			}
 			is AstFunction -> createVariable(name.value, ValueFunction(this, declaration))
 			else           -> println("Unknown declaration type ${declaration::class.simpleName}")
 		}
@@ -100,9 +102,16 @@ class Evaluator(vararg val importers: Importer) {
 		return when (type) {
 			is AstVariantType        -> type.variants.any { checkType(value, type) }
 			is AstNamedTypeReference -> {
-				checkType(value, (getVariable(type.value.value)
-						?: throw RuntimeException("Variable does not exist"))
-						as? Type ?: throw RuntimeException("The value is not a type"))
+				val typeVar = getVariable(type.value.value)
+				val type = when (typeVar) {
+					null    -> throw RuntimeException("Variable does not exist")
+					is Type -> typeVar
+					else    -> if (typeVar is ValueClass)
+						typeVar.type!!
+					else
+						throw RuntimeException("The value is not a type")
+				}
+				checkType(value, type)
 			}
 			else                     -> false
 		}
@@ -121,11 +130,14 @@ class Evaluator(vararg val importers: Importer) {
 		else              -> value
 	}
 
+	fun unrefNullable(value: Value?): Value? = if (value == null) null else unref(value)
+
 	fun Environment.instantiate(call: AstCallExpression, callee: TypeClass, obj: ValueClass) {
+		callee.parent?.let { instantiate(call, it, obj) }
 		val constructor = callee.declaration.primaryConstructor ?: throw RuntimeException("Has no error")
 
 		val env = Environment(this)
-		env.assignParams(call.arguments, constructor.parameters, call.lambda)
+		assignParams(this, env, call.arguments, constructor.parameters, call.lambda)
 
 		constructor.parameters
 				.filter { it.modifiers.has("val") || it.modifiers.has("var") }
@@ -137,10 +149,11 @@ class Evaluator(vararg val importers: Importer) {
 		instantiate(call, callee, it)
 	}
 
-	fun Environment.assignParams(args: AstNodeList<AstArgument>,
-	                             parameters: AstNodeList<AstFunctionParameter>,
-	                             lambda: AstFunction? = null) {
-		val arguments = args.map({ Pair(it, unref(evaluate(it.value))) })
+	fun assignParams(evalEnv: Environment, funcEnv: Environment,
+	                 args: AstNodeList<AstArgument>,
+	                 parameters: AstNodeList<AstFunctionParameter>,
+	                 lambda: AstFunction? = null) {
+		val arguments = args.map({ Pair(it, unref(evalEnv.evaluate(it.value))) })
 		val usedParams = mutableSetOf<AstFunctionParameter>()
 
 		arguments
@@ -152,17 +165,17 @@ class Evaluator(vararg val importers: Importer) {
 					if (!usedParams.add(param)) {
 						throw RuntimeException("Already used $name")
 					}
-					param.type?.let { assertType(value, it) }
-					createVariable(name, value)
+					param.type?.let { funcEnv.assertType(value, it) }
+					funcEnv.createVariable(name, value)
 				}
 
 		if (lambda != null) {
 			val lastParam = parameters.last()
 			if (!usedParams.add(lastParam)) throw RuntimeException("Already used ${lastParam.name.value}")
 
-			val func = ValueFunction(this, lambda)
-			lastParam.type?.let { assertType(func, it) }
-			createVariable(lastParam.name.value, func)
+			val func = ValueFunction(evalEnv, lambda)
+			lastParam.type?.let { funcEnv.assertType(func, it) }
+			funcEnv.createVariable(lastParam.name.value, func)
 		}
 
 		val ordinalArguments = arguments.filter { it.first.name == null }
@@ -175,18 +188,18 @@ class Evaluator(vararg val importers: Importer) {
 					usedParams.add(next)
 
 					val value = argsIt.next().second
-					next.type?.let { assertType(value, it) }
+					next.type?.let { funcEnv.assertType(value, it) }
 
-					val args = getLocalVariable(next.name.value) as ValueArray?
+					val args = funcEnv.getLocalVariable(next.name.value) as ValueArray?
 					val result = arrayOf(*(args?.value ?: emptyArray()), value)
-					setLocalVariable(next.name.value, ValueArray(result))
+					funcEnv.setLocalVariable(next.name.value, ValueArray(result))
 					it.previous()
 				} else {
 					while (!usedParams.add(next) && it.hasNext()) next = it.next()
 
 					val value = argsIt.next().second
-					next.type?.let { assertType(value, it) }
-					createVariable(next.name.value, value)
+					next.type?.let { funcEnv.assertType(value, it) }
+					funcEnv.createVariable(next.name.value, value)
 				}
 			}
 		}
@@ -197,22 +210,21 @@ class Evaluator(vararg val importers: Importer) {
 					if (it.default == null) {
 						if (!it.modifiers.has("vararg"))
 							throw RuntimeException("Argument ${it.name.value} is not specified")
-						createVariable(it.name.value, ValueArray(emptyArray()))
+						funcEnv.createVariable(it.name.value, ValueArray(emptyArray()))
 					} else {
-						createVariable(it.name.value, unref(evaluate(it.default)))
+						funcEnv.createVariable(it.name.value, unref(evalEnv.evaluate(it.default)))
 					}
 				}
 	}
 
 	fun Environment.call(call: AstCallExpression,
-	                     calleeValue: Value = evaluate(call.callee)): Value {
+	                     calleeValue: Value = evaluate(call.callee),
+	                     receiver: Value? = null): Value {
 		val callee = unref(calleeValue)
 		val declaration = when (callee) {
 			is ValueFunction         -> callee.function
 			is ValueInternalFunction -> callee.declaration
-			is ValueBindFunction     -> return extend().apply {
-				putReceiver(callee.receiver)
-			}.call(call, calleeValue)
+			is ValueBindFunction     -> return call(call, callee.callee, callee.receiver)
 			is TypeClass             -> return instantiate(call, callee)
 			else                     -> throw RuntimeException("Not a callable")
 		}
@@ -221,8 +233,9 @@ class Evaluator(vararg val importers: Importer) {
 			is ValueInternalFunction -> this
 			else                     -> throw RuntimeException("Cannot happen")
 		}
-		val newEnv = Environment(this)
-		newEnv.assignParams(call.arguments, declaration.parameters, call.lambda)
+		val newEnv = Environment(env)
+		receiver?.let { newEnv.putReceiver(it) }
+		assignParams(this, newEnv, call.arguments, declaration.parameters, call.lambda)
 
 		return when (callee) {
 			is ValueFunction         -> newEnv.evaluate(callee.function.body!!)
@@ -273,8 +286,10 @@ class Evaluator(vararg val importers: Importer) {
 				val left = unref(evaluate(expr.left))
 				val right = unref(evaluate(expr.right))
 
-				val result = binaryOperatorEvaluator.evaluate(expr.operator, left, right)
-						?: throw RuntimeException("Can't evaluate operator")
+				val result = with(binaryOperatorEvaluator) {
+					evaluate(expr.operator, left, right)
+							?: throw RuntimeException("Can't evaluate operator")
+				}
 				// TODO: if (expr.isInverted) value = !value
 
 				result

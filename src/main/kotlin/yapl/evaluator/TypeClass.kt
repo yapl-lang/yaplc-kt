@@ -8,8 +8,10 @@ class TypeClass(
 		env: Environment,
 		val declaration: AstClass
 ) : Type(declaration.name?.value ?: "Anonymous class") {
+	val parent = evaluator.unrefNullable(declaration.parent?.let { with(evaluator) {
+		env.evaluate(it.callee) }
+	}) as TypeClass?
 	val memberFunctions = declaration.members
 			.mapNotNull { it as? AstFunction }
 			.map { ValueFunction(env, it) }
-	val parent = declaration.parent?.let { with(evaluator) { env.evaluate(it.callee) } } as TypeClass?
 }

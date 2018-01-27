@@ -7,6 +7,7 @@ interface Operator {
 		Prefix
 	}
 
+	val name: String
 	val type: Type
 	val value: Array<out String>
 	val precedence: Int
