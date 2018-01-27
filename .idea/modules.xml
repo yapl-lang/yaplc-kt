@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/yapl.iml" filepath="$PROJECT_DIR$/yapl.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/yapl_main.iml" filepath="$PROJECT_DIR$/.idea/modules/yapl_main.iml" group="yapl" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/yapl_test.iml" filepath="$PROJECT_DIR$/.idea/modules/yapl_test.iml" group="yapl" />
+    </modules>
+  </component>
+</project>

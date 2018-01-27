@@ -1,0 +1,59 @@
+buildscript {
+	repositories {
+		mavenCentral()
+	}
+	dependencies {
+		classpath 'org.junit.platform:junit-platform-gradle-plugin:1.0.2'
+	}
+}
+
+plugins {
+	id 'org.jetbrains.kotlin.jvm' version '1.2.0'
+}
+
+apply plugin: 'org.jetbrains.kotlin.jvm'
+apply plugin: 'org.jetbrains.kotlin.kapt'
+
+apply plugin: 'idea'
+apply plugin: 'org.junit.platform.gradle.plugin'
+
+junitPlatform {
+	filters {
+		engines {
+			include 'spek'
+		}
+	}
+}
+
+allprojects {
+	repositories {
+		jcenter()
+		maven { url 'https://jitpack.io' }
+	}
+}
+
+dependencies {
+	compile 'org.jetbrains.kotlin:kotlin-stdlib-jdk8'
+	compile 'org.jetbrains.kotlin:kotlin-reflect'
+
+	testCompile 'org.jetbrains.kotlin:kotlin-test'
+	testCompile('org.jetbrains.spek:spek-api:1.1.5') {
+		exclude group: 'org.jetbrains.kotlin'
+	}
+	testCompile('org.jetbrains.spek:spek-subject-extension:1.1.5') {
+		exclude group: 'org.jetbrains.kotlin'
+	}
+	testRuntime('org.jetbrains.spek:spek-junit-platform-engine:1.1.5') {
+		exclude group: 'org.junit.platform'
+		exclude group: 'org.jetbrains.kotlin'
+	}
+}
+
+idea {
+	module {
+		sourceDirs += files('build/generated/source/kapt/main', 'build/generated/source/kaptKotlin/main')
+		generatedSourceDirs += files('build/generated/source/kapt/main', 'build/generated/source/kaptKotlin/main')
+	}
+}
+
+apply from: "$rootDir/gradle/common/shared.gradle"

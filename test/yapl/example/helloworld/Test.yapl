@@ -1,0 +1,38 @@
+package yapl.example.helloworld
+
+#import std.io.{
+#    stdout
+#    println
+#}
+
+#fun abs(a: Number) = if a < 0 then 0 - a else a
+#fun min(a: Number, b: Number) = if a < b then a else b
+#fun max(a: Number, b: Number) = if a > b then a else b
+
+#fun printRange(a, b) = if a <= b then {
+#    print(a)
+#    if a + 1 <= b then {
+#        print(", ")
+#        printRange(a + 1, b)
+#    } else println()
+#}
+
+struct class Fraction(val numerator: Number, val denominator: Number = 1) {
+    fun some = this
+
+    operator fun +(other: this) = Fraction(numerator * other->denominator + other->numerator * denominator, denominator * other->denominator)
+    operator fun -(other: this) = Fraction(numerator * other->denominator - other->numerator * denominator, denominator * other->denominator)
+
+    operator fun *(other: this) = Fraction(numerator * other->numerator, denominator * other->denominator)
+    operator fun /(other: this) = Fraction(numerator * other->denominator, denominator * other->numerator)
+}
+
+fun main() {
+    val fraction = Fraction(1)
+    println(fraction->numerator)
+    fraction->numerator = 10
+    println(fraction->numerator)
+    println(fraction->some()())
+    println(fraction->some()->some()->some()->numerator)
+    #printRange(1, 10)
+}
