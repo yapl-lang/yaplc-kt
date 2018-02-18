@@ -297,7 +297,7 @@ class Evaluator(vararg val importers: Importer) {
 		assignParams(this, newEnv, call.arguments, declaration.parameters, call.lambda)
 
 		return when (callee) {
-			is ValueFunction -> newEnv.evaluate(callee.function.body!!)
+			is ValueFunction -> newEnv.evaluate(callee.function.body!!) // TODO: Check type
 			is ValueInternalFunction -> callee.function(newEnv)
 			else -> throw RuntimeException("Cannot happen")
 		}
@@ -363,7 +363,11 @@ class Evaluator(vararg val importers: Importer) {
 			fun next() = env.evaluate(action)
 
 			var current: Value = ValueVoid
-			while (hasNext()) current = next()
+			while (true) {
+				env = extend()
+				if (!hasNext()) break
+				current = next()
+			}
 
 			current
 		}

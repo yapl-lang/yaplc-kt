@@ -62,6 +62,17 @@ class BinaryOperatorEvaluator(val evaluator: Evaluator) {
 			ValueBoolean(a.value >= b.value)
 		}
 
+		defineOperator(BinaryOperator.Equal) { a: ValueString, b: ValueString -> ValueBoolean(a.value == b.value) }
+		defineOperator(BinaryOperator.NotEqual) { a: ValueString, b: ValueString -> ValueBoolean(a.value != b.value) }
+
+		defineOperator(BinaryOperator.Equal) { _: ValueNull, _: ValueNull -> ValueBoolean(true) }
+		defineOperator(BinaryOperator.NotEqual) { _: ValueNull, _: ValueNull -> ValueBoolean(false) }
+
+		defineOperator(BinaryOperator.Equal) { _: Value, _: ValueNull -> ValueBoolean(false) }
+		defineOperator(BinaryOperator.Equal) { _: ValueNull, _: Value -> ValueBoolean(false) }
+		defineOperator(BinaryOperator.NotEqual) { _: Value, _: ValueNull -> ValueBoolean(true) }
+		defineOperator(BinaryOperator.NotEqual) { _: ValueNull, _: Value -> ValueBoolean(true) }
+
 		defineOperator(BinaryOperator.Is) { a: Value, b: Type ->
 			if (b is TypeClass) {
 				var clazz: TypeClass? = b
@@ -132,12 +143,12 @@ class BinaryOperatorEvaluator(val evaluator: Evaluator) {
 	}
 
 	fun Environment.evaluate(operator: BinaryOperator, a: Value, b: Value): Value? {
-		val aClass = a::class
-		val bClass = b::class
+//		val aClass = a::class
+//		val bClass = b::class
 
 		@Suppress("UNCHECKED_CAST")
 		val entry = operatorMap.filter { it.operator == operator }
-				.firstOrNull { it.a::class.isInstance(aClass) && it.b::class.isInstance(bClass) }
+				.firstOrNull { it.a.isInstance(a) && it.b.isInstance(b) }
 				as? OperatorEntry<Value, Value, Value>
 
 		return entry?.action?.invoke(this, a, b) ?: if (a is ValueClass) extend().run {

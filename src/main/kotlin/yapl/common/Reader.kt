@@ -27,13 +27,13 @@ inline fun Reader.takeWhile(cond: (char: Char, i: Int) -> Boolean) = buildString
 
 fun Reader.readMaybeEscaped(): Char {
 	val char = next()
-//	if (char == '\\') {
-//		val underEscape = next()
-//		return when (underEscape) {
-//			'0' -> 0.toChar()
-//			'n' -> '\n'
-//			else -> underEscape
-//		}
-//	}
+	if (char == '\\') {
+		val underEscape = next()
+		return when (underEscape) {
+			'0' -> 0.toChar()
+			'n' -> '\n'
+			else -> underEscape
+		}
+	}
 	return char
 }

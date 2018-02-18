@@ -1,5 +1,6 @@
 package yapl.compiler
 
+import yapl.collection.ArrayList
 import yapl.compiler.{
 	Reader
 	TokenStream
@@ -7,6 +8,8 @@ import yapl.compiler.{
 
 class Tokenizer {
 	fun tokenize(reader: Reader) -> TokenStream {
+		val tokens = ArrayList()
 
+		tokens
 	}
 }

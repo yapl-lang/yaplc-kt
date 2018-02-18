@@ -17,8 +17,9 @@ fun main(vararg args: String) {
 	val reader = Reader(file)
 	#val tokens = Tokenizer()->tokenize(reader)
 
-	println(reader->next())
-	println(reader->next())
+	#println(reader->next())
+	#println(reader->next())
+	println(reader->takeWhile(fun (i) = i != "\n"))
 
 	#for token in tokens do println(token)
     #val tokenStream = TokenStream(tokenizer->tokenize(file))
