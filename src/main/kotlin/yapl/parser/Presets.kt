@@ -13,16 +13,17 @@ object Presets {
 			'+', '-',
 			'*', '/',
 			'%',
-			'^',
+			'^', '~',
 			'&', '|',
 
 			'<', '>',
-			'?'
+			'?',
+
+			'[', ']'
 	)
 
 	val Punctuations = OperatorChars + listOf(
 			'(', ')',
-			'[', ']',
 			'{', '}',
 
 			':', '@'
@@ -37,6 +38,9 @@ object Presets {
 			"val", "var",
 
 			"if", "then", "else",
+			"for", "in",
+			"while",
+			"do",
 
 			"return"
 	)
@@ -53,7 +57,9 @@ object Presets {
 			"times", "div",
 
 			"rem",
-			"pow", "sqrt"
+			"pow", "sqrt",
+
+			"is"
 	)
 
 	val DeclarationModifiers = mapOf<Any, List<String>>(

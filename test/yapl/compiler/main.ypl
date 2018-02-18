@@ -1,0 +1,33 @@
+package yapl.compiler
+
+import yapl.compiler.{
+    TokenStream
+    Tokenizer
+    Reader
+}
+import yapl.collection.ArrayList
+
+class IndexingTest {
+    operator fun [](index: Number) = index * 2
+}
+
+fun main(vararg args: String) {
+	var file = ert_readFile("/home/tarik02/programming/kotlin/yapl/test/yapl/compiler/main.ypl")
+
+	val reader = Reader(file)
+	#val tokens = Tokenizer()->tokenize(reader)
+
+	println(reader->next())
+	println(reader->next())
+
+	#for token in tokens do println(token)
+    #val tokenStream = TokenStream(tokenizer->tokenize(file))
+
+    val i = IndexingTest()
+
+	#val list = ArrayList()
+	#for i in 0..<10 do list->add(i)
+	#for i in list do println(i)
+
+    # println(i[5])
+}

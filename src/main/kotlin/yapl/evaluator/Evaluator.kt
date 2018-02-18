@@ -2,19 +2,24 @@ package yapl.evaluator
 
 import yapl.parser.ast.*
 import yapl.parser.operator.BinaryOperator
+import java.io.File
 import java.math.BigDecimal
 
 class Evaluator(vararg val importers: Importer) {
 	private val binaryOperatorEvaluator = BinaryOperatorEvaluator(this)
+	private val imported = mutableMapOf<String, Environment?>()
 
 	val rootEnv = Environment().apply {
 		createVariable("Array", TypeArray)
 		createVariable("Boolean", TypeBoolean)
 		createVariable("Function", TypeFunction)
+		createVariable("Nothing", TypeNothing)
 		createVariable("Null", TypeNull)
 		createVariable("Number", TypeNumber)
 		createVariable("String", TypeString)
 		createVariable("Void", TypeVoid)
+
+		createVariable("null", ValueNull)
 
 		createVariable("print", ValueInternalFunction(AstFunction(
 				parameters = listOf(AstFunctionParameter(AstDeclarationModifiers(listOf(
@@ -31,13 +36,28 @@ class Evaluator(vararg val importers: Importer) {
 			println()
 			ValueVoid
 		})
+
+		createVariable("ert_array", ValueInternalFunction(AstFunction(
+				parameters = listOf(AstFunctionParameter(AstDeclarationModifiers(),
+						AstName("length"))))) { funEnv ->
+			ValueArray(Array((funEnv.getVariable("length") as ValueNumber).value.toInt()) {
+				ValueNull
+			})
+		})
+
+		createVariable("ert_readFile", ValueInternalFunction(AstFunction(
+				parameters = listOf(AstFunctionParameter(AstDeclarationModifiers(),
+						AstName("path"))))) { funEnv ->
+			val path = (funEnv.getVariable("path") as ValueString).value
+			ValueString(File(path).readText())
+		})
 	}
 
 	private fun Environment.applyImportGroup(import: AstImportGroup, path: String = "") {
-		val newPath = (if (path.isEmpty()) "" else "$path.") + import.value.value
+		val newPath = "$path${import.value.value}."
 		import.imports.forEach {
 			when (it) {
-				is AstImport      -> applyImport(it, newPath)
+				is AstImport -> applyImport(it, newPath)
 				is AstImportGroup -> applyImportGroup(it, newPath)
 			}
 		}
@@ -47,29 +67,40 @@ class Evaluator(vararg val importers: Importer) {
 		val realName = import.value.entries.last()
 
 		val name = import.alias?.value ?: realName
-		val importPath = (if (path.isEmpty()) "" else "$path.") + import.value.value
+		val importPath = path + import.value.value
 		val importValue = import(importPath)?.getVariable(realName)
 				?: throw RuntimeException("Failed to resolve import $name")
 
-		setVariable(name, importValue)
+		setLocalVariable(name, importValue)
+	}
+
+	private fun Environment.createDeclaration(declaration: AstDeclaration) {
+		val name = declaration.name ?: return
+		when (declaration) {
+			is AstClass -> TypeClass(this, declaration).let {
+				setLocalVariable("this", it)
+				createVariable(name.value, it)
+			}
+			is AstFunction -> createVariable(name.value, ValueFunction(this, declaration))
+			else -> println("Unknown declaration type ${declaration::class.simpleName}")
+		}
 	}
 
 	private fun Environment.applyDeclaration(declaration: AstDeclaration) {
 		val name = declaration.name ?: return
 		when (declaration) {
-			is AstClass    -> TypeClass(this@Evaluator, this, declaration).let {
-				setLocalVariable("this", it)
-				createVariable(name.value, it)
-			}
-			is AstFunction -> createVariable(name.value, ValueFunction(this, declaration))
-			else           -> println("Unknown declaration type ${declaration::class.simpleName}")
+			is AstClass -> (getVariable(name.value) as TypeClass).run { init() }
 		}
 	}
 
-	private fun createEnv(program: AstProgram) = rootEnv.extend().apply {
+	private fun Environment.createEnv(program: AstProgram) {
+		program.declarations.forEach { createDeclaration(it) }
+	}
+
+	private fun Environment.applyEnv(program: AstProgram) {
 		program.imports.forEach {
 			when (it) {
-				is AstImport      -> applyImport(it)
+				is AstImport -> applyImport(it)
 				is AstImportGroup -> applyImportGroup(it)
 			}
 		}
@@ -78,9 +109,18 @@ class Evaluator(vararg val importers: Importer) {
 	}
 
 	fun import(fullName: String): Environment? {
-		return importers
-				.mapNotNull { it.import(fullName) }
-				.firstOrNull()?.let { createEnv(it) }
+		if (imported.containsKey(fullName)) return imported[fullName]
+
+		val env = rootEnv.extend()
+		val program = importers.mapNotNull { it.import(fullName) }.firstOrNull()
+		if (program == null) {
+			imported[fullName] = null
+			return null
+		}
+		env.createEnv(program)
+		imported[fullName] = env
+		env.applyEnv(program)
+		return env
 	}
 
 	fun checkType(value: Value, type: Type): Boolean {
@@ -100,20 +140,20 @@ class Evaluator(vararg val importers: Importer) {
 
 	fun Environment.checkType(value: Value, type: AstTypeReference): Boolean {
 		return when (type) {
-			is AstVariantType        -> type.variants.any { checkType(value, type) }
+			is AstVariantType -> type.variants.any { checkType(value, type) }
 			is AstNamedTypeReference -> {
 				val typeVar = getVariable(type.value.value)
 				val type = when (typeVar) {
-					null    -> throw RuntimeException("Variable does not exist")
+					null -> throw RuntimeException("Variable does not exist")
 					is Type -> typeVar
-					else    -> if (typeVar is ValueClass)
+					else -> if (typeVar is ValueClass)
 						typeVar.type!!
 					else
 						throw RuntimeException("The value is not a type")
 				}
 				checkType(value, type)
 			}
-			else                     -> false
+			else -> false
 		}
 	}
 
@@ -127,7 +167,7 @@ class Evaluator(vararg val importers: Importer) {
 
 	fun unref(value: Value): Value = when (value) {
 		is ValueReference -> unref(value.value)
-		else              -> value
+		else -> value
 	}
 
 	fun unrefNullable(value: Value?): Value? = if (value == null) null else unref(value)
@@ -136,12 +176,31 @@ class Evaluator(vararg val importers: Importer) {
 		callee.parent?.let { instantiate(call, it, obj) }
 		val constructor = callee.declaration.primaryConstructor ?: throw RuntimeException("Has no error")
 
-		val env = Environment(this)
+		val env = Environment(callee.env)
+		env.putReceiver(obj)
 		assignParams(this, env, call.arguments, constructor.parameters, call.lambda)
+
+		callee.declaration.members
+				.filterIsInstance<AstVariableDeclaration>()
+				.forEach {
+					val initializer = it.initializer ?: return
+					val value = env.evaluate(initializer)
+					it.type?.let { env.checkType(value, it) }
+					obj.setMember(it.name.value, value)
+				}
 
 		constructor.parameters
 				.filter { it.modifiers.has("val") || it.modifiers.has("var") }
 				.forEach { obj.members[it.name.value] = env.getLocalVariable(it.name.value)!! }
+
+		constructor.body?.let { env.evaluate(it) }
+
+		callee.memberConstructors.firstOrNull()?.let {
+			val env2 = Environment(it.first)
+			env2.putReceiver(obj)
+			assignParams(this, env2, call.arguments, constructor.parameters, call.lambda)
+			it.second.body?.let { env2.evaluate(it) }
+		}
 	}
 
 	fun Environment.instantiate(call: AstCallExpression,
@@ -222,58 +281,115 @@ class Evaluator(vararg val importers: Importer) {
 	                     receiver: Value? = null): Value {
 		val callee = unref(calleeValue)
 		val declaration = when (callee) {
-			is ValueFunction         -> callee.function
+			is ValueFunction -> callee.function
 			is ValueInternalFunction -> callee.declaration
-			is ValueBindFunction     -> return call(call, callee.callee, callee.receiver)
-			is TypeClass             -> return instantiate(call, callee)
-			else                     -> throw RuntimeException("Not a callable")
+			is ValueBindFunction -> return call(call, callee.callee, callee.receiver)
+			is TypeClass -> return instantiate(call, callee)
+			else -> throw RuntimeException("Not a callable")
 		}
 		val env = when (callee) {
-			is ValueFunction         -> callee.env
+			is ValueFunction -> callee.env
 			is ValueInternalFunction -> this
-			else                     -> throw RuntimeException("Cannot happen")
+			else -> throw RuntimeException("Cannot happen")
 		}
 		val newEnv = Environment(env)
 		receiver?.let { newEnv.putReceiver(it) }
 		assignParams(this, newEnv, call.arguments, declaration.parameters, call.lambda)
 
 		return when (callee) {
-			is ValueFunction         -> newEnv.evaluate(callee.function.body!!)
+			is ValueFunction -> newEnv.evaluate(callee.function.body!!)
 			is ValueInternalFunction -> callee.function(newEnv)
-			else                     -> throw RuntimeException("Cannot happen")
+			else -> throw RuntimeException("Cannot happen")
 		}
 	}
 
 	fun Environment.evaluate(expr: AstExpression): Value = when (expr) {
-		is AstFunction                -> ValueFunction(this, expr).also { func ->
+		is AstFunction -> ValueFunction(this, expr).also { func ->
 			expr.name?.let { createVariable(it.value, func) } // TODO: Check
 		}
-		is AstVariableDeclaration     -> {
+		is AstVariableDeclaration -> {
 			(if (expr.initializer != null) unref(evaluate(expr.initializer)) else ValueNull).let {
 				expr.type?.let { type -> assertType(it, type) }
 				createVariable(expr.name.value,
 						it) ?: throw RuntimeException("Variable already exist")
 			}
 		}
-		is AstReferenceExpression     -> getVariableReference(expr.name.value) ?: throw RuntimeException(
+		is AstReferenceExpression -> getVariableReference(expr.name.value) ?: throw RuntimeException(
 				"Variable ${expr.name.value} is not declared")
-		is AstCompoundExpression      -> expr.expressions.map { evaluate(it) }.lastOrNull() ?: ValueVoid
-		is AstCallExpression          -> call(expr)
-		is AstIfExpression            -> when {
+		is AstCompoundExpression -> expr.expressions.map { evaluate(it) }.lastOrNull() ?: ValueVoid
+		is AstCallExpression -> call(expr)
+		is AstIfExpression -> when {
 			(evaluate(expr.condition) as ValueBoolean).value -> evaluate(expr.thenBlock)
-			expr.elseBlock != null                           -> evaluate(expr.elseBlock)
-			else                                             -> ValueVoid
+			expr.elseBlock != null -> evaluate(expr.elseBlock)
+			else -> ValueVoid
+		}
+		is AstForLoopExpression -> {
+			val variable = expr.variable
+			val range = unref(evaluate(expr.range)) as ValueClass
+			val action = expr.action
+
+			lateinit var hasNextFn: Value
+			lateinit var nextFn: Value
+			try {
+				hasNextFn = range.getMember("hasNext")
+				nextFn = range.getMember("next")
+			} catch (_: Throwable) {
+				val iterator = call(AstCallExpression(AstReferenceExpression(AstName(""))),
+						range.getMember("getIterator")) as ValueClass
+				hasNextFn = iterator.getMember("hasNext")
+				nextFn = iterator.getMember("next")
+			}
+
+			lateinit var env: Environment
+			fun hasNext() = (unref(env.call(AstCallExpression(AstReferenceExpression(AstName(""))), hasNextFn)) as ValueBoolean).value
+			fun next() = env.call(AstCallExpression(AstReferenceExpression(AstName(""))), nextFn)
+
+			fun iteration() = env.run {
+				setLocalVariable(variable.value, next())
+				evaluate(action)
+			}
+
+			var current = if (hasNext()) iteration() else ValueNull
+			while (hasNext()) current = iteration()
+
+			current
+		}
+		is AstWhileLoopExpression -> {
+			val condition = expr.condition
+			val action = expr.action
+
+			lateinit var env: Environment
+			fun hasNext() = (unref(env.evaluate(condition)) as ValueBoolean).value
+			fun next() = env.evaluate(action)
+
+			var current: Value = ValueVoid
+			while (hasNext()) current = next()
+
+			current
 		}
 		is AstStringLiteralExpression -> ValueString(expr.value)
 		is AstNumberLiteralExpression -> ValueNumber(BigDecimal(expr.beforeComma +
 				"." + (expr.afterComma ?: "0") +
 				"e" + (expr.afterE ?: "0")))
-		is AstBinaryOperator          -> when (expr.operator) {
-			BinaryOperator.Member     -> {
-				val left = unref(evaluate(expr.left)) as? ValueClass ?: throw RuntimeException("Can't get member not on a class")
-				val right = expr.right as? AstReferenceExpression ?: throw RuntimeException("Member name needed")
+		is AstBinaryOperator -> when (expr.operator) {
+			BinaryOperator.Member -> {
+				val left = unref(evaluate(expr.left))
+				val right = (expr.right as? AstReferenceExpression ?: throw RuntimeException("Member name needed")).name.value
 
-				ValueMemberReference(left, right.name.value)
+				when (left) {
+					is ValueClass -> ValueMemberReference(left, right)
+					is ValueString -> when (right) {
+						"length" -> ValueNumber(left.value.length)
+						else -> ValueNothing
+					}
+					else -> ValueNothing
+				}
+			}
+			BinaryOperator.MemberDynamic -> {
+				val left = unref(evaluate(expr.left))
+				val right = unref(evaluate(expr.right))
+
+				ValueDynamicMemberReference(this@Evaluator, this, left, right)
 			}
 			BinaryOperator.Assignment -> {
 				val left = evaluate(expr.left) as? ValueReference ?: throw RuntimeException("Left operand is not left-value")
@@ -282,7 +398,7 @@ class Evaluator(vararg val importers: Importer) {
 				left.value = right
 				right
 			}
-			else                      -> {
+			else -> {
 				val left = unref(evaluate(expr.left))
 				val right = unref(evaluate(expr.right))
 
@@ -295,6 +411,6 @@ class Evaluator(vararg val importers: Importer) {
 				result
 			}
 		}
-		else                          -> TODO()
+		else -> TODO()
 	}
 }

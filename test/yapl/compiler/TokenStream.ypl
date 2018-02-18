@@ -1,0 +1,9 @@
+package yapl.compiler
+
+import yapl.collection.{
+    ArrayList
+}
+
+class TokenStream {
+    constructor(val tokens: ArrayList)
+}

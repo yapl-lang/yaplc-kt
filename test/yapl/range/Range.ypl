@@ -1,0 +1,12 @@
+package yapl.range
+
+class Range(val begin: Number, val end: Number, val step: Number = 1) {
+	var current: Number = this->begin
+
+	fun hasNext = this->current <= this->end
+	fun next {
+		val value = this->current
+		this->current = this->current + this->step
+		value
+	}
+}

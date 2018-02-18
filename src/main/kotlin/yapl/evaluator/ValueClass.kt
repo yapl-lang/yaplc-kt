@@ -7,7 +7,7 @@ class ValueClass(val env: Environment, type: TypeClass) : Value(type) {
 		var clazz: TypeClass? = type as TypeClass
 		while (clazz != null) {
 			clazz.memberFunctions.firstOrNull {
-				it.function.name?.value == name || it.function.operator?.name == name
+				it.function.name?.value == name || it.function.operator?.value?.contains(name) ?: false
 			}?.let {
 				return ValueBindFunction(this, it)
 			}

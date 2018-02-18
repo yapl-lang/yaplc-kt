@@ -50,10 +50,17 @@ class Tokenizer {
 				}
 				c.isDigit() -> {
 					val beforeComma = c + reader.takeWhile { it -> it.isDigit() }
-					val afterComma = if (reader.take('.')) reader.takeWhile { it -> it.isDigit() } else null
+					var addPunctuation = false
+					val afterComma = if (reader.take('.')) {
+						if (!reader.peek().isDigit()) {
+							addPunctuation = true
+							null
+						} else reader.takeWhile { it -> it.isDigit() }
+					} else null
 					val afterE = if (reader.take('e')) reader.takeWhile { it -> it.isDigit() } else null
 
 					yield(TokenNumberLiteral(bound(), beforeComma, afterComma, afterE))
+					if (addPunctuation) yield(TokenPunctuation(bound(), '.'))
 				}
 				c.isJavaIdentifierStart() -> {
 					val id = c + reader.takeWhile { it -> it.isJavaIdentifierPart() }

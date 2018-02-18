@@ -7,6 +7,7 @@ abstract class Type(val name: String) : Value(null) {
 object TypeArray : Type("yapl.type.Array")
 object TypeBoolean : Type("yapl.type.Boolean")
 object TypeFunction : Type("yapl.type.Function")
+object TypeNothing : Type("yapl.type.Nothing")
 object TypeNull : Type("yapl.type.Null")
 object TypeNumber : Type("yapl.type.Number")
 object TypeReference : Type("yapl.type.Reference")

@@ -1,0 +1,12 @@
+package yapl.compiler
+
+import yapl.compiler.{
+	Reader
+	TokenStream
+}
+
+class Tokenizer {
+	fun tokenize(reader: Reader) -> TokenStream {
+
+	}
+}

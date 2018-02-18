@@ -3,6 +3,7 @@ package yapl.parser
 import yapl.common.Bound
 import yapl.common.Position
 import yapl.parser.ast.*
+import yapl.parser.operator.BinaryOperator
 import yapl.parser.operator.Operator
 import yapl.parser.operator.OperatorSet
 import yapl.parser.operator.binaryOperators
@@ -51,12 +52,20 @@ class Parser(private val tokens: TokenStream) {
 		return condition(tokens.peek(offset, skipWhitespace) as? T ?: return false)
 	}
 
-	private fun skipNewline() = skipWhitespace<TokenNewline>()
+	private fun skipNewline(): Boolean {
+		tokens.push()
+		if (skipWhitespace<TokenNewline>()) {
+			tokens.release()
+			return true
+		}
+		tokens.pop()
+		return false
+	}
 
 	private fun isNewline() = tokens.push {
+		val skipped = skipNewline()
 		pop()
-
-		skipNewline()
+		skipped
 	}
 
 	private inline fun <reified T : Token> skipWhitespace(condition: (T) -> Boolean = { true }): Boolean {
@@ -75,7 +84,9 @@ class Parser(private val tokens: TokenStream) {
 		}
 	}
 
-	private fun expectedKeyword(vararg values: String, offset: Int = 0, skipWhitespace: Boolean = true): TokenKeyword {
+	private fun expectedKeyword(vararg values: String,
+	                            offset: Int = 0,
+	                            skipWhitespace: Boolean = true): TokenKeyword {
 		assert(values.isNotEmpty())
 		return expected(offset, skipWhitespace, {
 			if (values.size == 1)
@@ -85,7 +96,9 @@ class Parser(private val tokens: TokenStream) {
 		}) { values.contains(it.value) }
 	}
 
-	private fun expectedOptionalKeyword(vararg values: String, offset: Int = 0, skipWhitespace: Boolean = true): TokenOptionalKeyword {
+	private fun expectedOptionalKeyword(vararg values: String,
+	                                    offset: Int = 0,
+	                                    skipWhitespace: Boolean = true): TokenOptionalKeyword {
 		assert(values.isNotEmpty())
 		return expected(offset, skipWhitespace, {
 			if (values.size == 1)
@@ -95,7 +108,9 @@ class Parser(private val tokens: TokenStream) {
 		}) { values.contains(it.value) }
 	}
 
-	private fun expectedPunctuation(vararg values: Char, offset: Int = 0, skipWhitespace: Boolean = true): TokenPunctuation {
+	private fun expectedPunctuation(vararg values: Char,
+	                                offset: Int = 0,
+	                                skipWhitespace: Boolean = true): TokenPunctuation {
 		assert(values.isNotEmpty())
 		return expected(offset, skipWhitespace, {
 			if (values.size == 1)
@@ -105,7 +120,9 @@ class Parser(private val tokens: TokenStream) {
 		}) { values.contains(it.value) }
 	}
 
-	private fun error(message: String, begin: Position = tokens.position, end: Position = begin): Nothing {
+	private fun error(message: String,
+	                  begin: Position = tokens.position,
+	                  end: Position = begin): Nothing {
 		throw ParseError(message, Bound(begin, end))
 	}
 
@@ -200,8 +217,10 @@ class Parser(private val tokens: TokenStream) {
 	}
 
 	fun parseImport(requireImportKeyword: Boolean = true): AstAbstractImport = parse {
-		if (requireImportKeyword) expectedKeyword("import")
-		enter()
+		if (requireImportKeyword) {
+			expectedKeyword("import")
+			enter()
+		}
 
 		val entries = mutableListOf<String>()
 		entries.add(expected<TokenIdentifier>().value)
@@ -217,8 +236,8 @@ class Parser(private val tokens: TokenStream) {
 					expectedPunctuation('}')
 					return@parse AstImportGroup(AstDotDelimitedName(entries), children)
 				}
-				is TokenIdentifier -> entries.add(next.value)
-				else -> TODO("Unexpected")
+				is TokenIdentifier  -> entries.add(next.value)
+				else                -> TODO("Unexpected")
 			}
 		}
 
@@ -283,9 +302,9 @@ class Parser(private val tokens: TokenStream) {
 	} else listOf()
 
 	fun parseFunctionBody() = when {
-		skip<TokenPunctuation> { it.value == '=' } -> parseExpression()
+		skip<TokenPunctuation> { it.value == '=' }   -> parseExpression()
 		nextIs<TokenPunctuation> { it.value == '{' } -> parseBlockExpression()
-		else -> null
+		else                                         -> null
 	}
 
 	fun parseFunction(requireFunKeyword: Boolean = true, isExpression: Boolean = false) = parse {
@@ -340,7 +359,8 @@ class Parser(private val tokens: TokenStream) {
 		val name = parseName()
 		val primaryConstructor = parseOptional(::parsePrimaryConstructor)
 		val parent = if (skip<TokenPunctuation> { it.value == ':' })
-			(parseCall(parseReferenceExpression(), false)) ?: error("Superclass should be a call")
+			parseOptional { parseCall(parseReferenceExpression(), false) }
+					?: error("Superclass should be a call")
 		else null
 		val members = if (skip<TokenPunctuation> { it.value == '{' })
 			parseMultiple { parseOptional(::parseConstructor) ?: parseDeclaration() }
@@ -351,7 +371,7 @@ class Parser(private val tokens: TokenStream) {
 	}
 
 
-	fun parseReferenceExpression() = AstReferenceExpression(parseName())
+	fun parseReferenceExpression() = parse { AstReferenceExpression(parseName()) }
 
 	fun parseArgument() = parse {
 		val name = tokens.push {
@@ -382,6 +402,36 @@ class Parser(private val tokens: TokenStream) {
 		AstIfExpression(condition, thenBlock, elseBlock)
 	}
 
+	fun parseForLoop() = parse {
+		expectedKeyword("for")
+		enter()
+
+		val variable = parseName()
+
+		expectedKeyword("in")
+
+		val range = parseExpression()
+
+		expectedKeyword("do")
+
+		val action = parseExpression()
+
+		AstForLoopExpression(variable, range, action)
+	}
+
+	fun parseWhileLoop() = parse {
+		expectedKeyword("while")
+		enter()
+
+		val condition = parseExpression()
+
+		expectedKeyword("do")
+
+		val action = parseExpression()
+
+		AstWhileLoopExpression(condition, action)
+	}
+
 	fun parseReturn() = parse {
 		expectedKeyword("return")
 		enter()
@@ -391,26 +441,7 @@ class Parser(private val tokens: TokenStream) {
 		AstReturnExpression(expressions)
 	}
 
-	private inline fun parseMaybeCall(crossinline call: () -> AstExpression) = parse {
-		val exp = call()
-
-		if (skipNewline()) return@parse exp
-
-		val arguments = if (skip<TokenPunctuation> { it.value == '(' }) {
-			parseDelimited(::parseArgument, false, mayEmitValueAfterComma = true).also {
-				expectedPunctuation(')')
-			}
-		} else null
-
-		val lambda = if (nextIs<TokenPunctuation> { it.value == '{' }) {
-			parseFunction(requireFunKeyword = false, isExpression = true)
-		} else null
-
-		if (arguments == null && lambda == null) exp
-		else AstCallExpression(exp, arguments ?: emptyList(), lambda)
-	}
-
-	private fun parseCall(exp: AstExpression, allowLambda: Boolean = true): AstCallExpression? {
+	private fun parseCall(exp: AstExpression, allowLambda: Boolean = true) = parse {
 		val arguments = if (skip<TokenPunctuation> { it.value == '(' }) {
 			parseDelimited(::parseArgument, false, mayEmitValueAfterComma = true).also {
 				expectedPunctuation(')')
@@ -421,8 +452,18 @@ class Parser(private val tokens: TokenStream) {
 			parseFunction(requireFunKeyword = false, isExpression = true)
 		} else null
 
-		return if (arguments == null && lambda == null) null
-		else AstCallExpression(exp, arguments ?: emptyList(), lambda)
+		if (arguments == null && lambda == null) error("Has neither call nor lambda")
+
+		AstCallExpression(exp, arguments ?: emptyList(), lambda)
+	}
+
+	private fun parseMemberAccess(exp: AstExpression) = parse {
+		expectedPunctuation('[')
+		enter()
+		val member = parseExpression()
+		expectedPunctuation(']')
+
+		AstBinaryOperator(exp, member, BinaryOperator.MemberDynamic)
 	}
 
 	private fun <O : Operator> selectOperator(operators: OperatorSet<O>): O? {
@@ -442,9 +483,19 @@ class Parser(private val tokens: TokenStream) {
 				possibleOperators = possibleOperators.filterKeys { it.length > i && it[i] == next }
 				++i
 			}
-			val operator = possibleOperators.filterKeys { it.length == i }.values.firstOrNull()
-			if (operator == null) pop()
-			return operator
+			val operator = possibleOperators.entries.firstOrNull()
+			if (operator != null) {
+				while (operator.key.length != i) {
+					val next = take(skipWhitespace = false, condition = ::charFilter)?.value
+					if (next == null) {
+						pop()
+						return null
+					}
+					possibleOperators = possibleOperators.filterKeys { it.length > i && it[i] == next }
+					++i
+				}
+			} else pop()
+			return operator?.value
 		}
 	}
 
@@ -457,13 +508,23 @@ class Parser(private val tokens: TokenStream) {
 			return@parse parseMaybeBinary(AstBinaryOperator(left, right, operator), myPrecedence)
 		}
 
-		if (skipNewline()) return@parse left
+//		if (skipNewline()) return@parse left
+		if (isNewline()) return@parse left
 
 		tokens.push {
 			val precedence = 35
 			if (precedence <= myPrecedence) return@push pop()
 
-			parseCall(left)?.let {
+			parseOptional { parseCall(left) }?.let {
+				return@parse parseMaybeBinary(it, myPrecedence)
+			}
+		}
+
+		tokens.push {
+			val precedence = 40
+			if (precedence <= myPrecedence) return@push pop()
+
+			parseOptional { parseMemberAccess(left) }?.let {
 				return@parse parseMaybeBinary(it, myPrecedence)
 			}
 		}
@@ -489,21 +550,29 @@ class Parser(private val tokens: TokenStream) {
 		return@parse left
 	}
 
-	fun parseAtom(): AstExpression = parse {//parseMaybeCall {
-		if (skip<TokenPunctuation> { it.value == '(' })
-			parseExpression().also { expectedPunctuation(')') }
-		else take<TokenStringLiteral>()?.run { AstStringLiteralExpression(value) }
-				?: take<TokenCharLiteral>()?.run { AstCharLiteralExpression(value) }
-				?: take<TokenNumberLiteral>()?.run { AstNumberLiteralExpression(beforeComma, afterComma, afterE) }
-				?: parseOptional(::parseReferenceExpression)
-				?: parseOptional(::parseBlockExpression)
-				?: parseOptional(::parseIf)
-				?: parseOptional(::parseReturn)
-				?: parseOptional { parseDeclaration() }
-				?: error("Unexpected")
+	fun parseStringLiteral() = parse { AstStringLiteralExpression(expected<TokenStringLiteral>().value) }
+	fun parseCharLiteral() = parse { AstCharLiteralExpression(expected<TokenCharLiteral>().value) }
+	fun parseNumberLiteral() = parse {
+		expected<TokenNumberLiteral>().run {
+			AstNumberLiteralExpression(beforeComma, afterComma, afterE)
+		}
 	}
 
-	fun parseExpression(): AstExpression = parse {//parseMaybeCall {
+	fun parseAtom(): AstExpression = if (skip<TokenPunctuation> { it.value == '(' })
+		parseExpression().also { expectedPunctuation(')') }
+	else parseOptional(::parseStringLiteral)
+			?: parseOptional(::parseCharLiteral)
+			?: parseOptional(::parseNumberLiteral)
+			?: parseOptional(::parseReferenceExpression)
+			?: parseOptional(::parseBlockExpression)
+			?: parseOptional(::parseIf)
+			?: parseOptional(::parseForLoop)
+			?: parseOptional(::parseWhileLoop)
+			?: parseOptional(::parseReturn)
+			?: parseOptional(::parseDeclaration)
+			?: error("Unexpected")
+
+	fun parseExpression(): AstExpression = parse {
 		parseMaybeBinary(parseAtom(), 0)
 	}
 
@@ -513,7 +582,6 @@ class Parser(private val tokens: TokenStream) {
 
 		val expressions = mutableListOf<AstExpression>()
 
-		while (skip<TokenSemicolon>());
 		do expressions.add(parseOptional(::parseExpression) ?: continue)
 		while (skip<TokenSemicolon>() || skipNewline())
 

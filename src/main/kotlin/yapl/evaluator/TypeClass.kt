@@ -1,17 +1,26 @@
 package yapl.evaluator
 
 import yapl.parser.ast.AstClass
+import yapl.parser.ast.AstClassConstructor
 import yapl.parser.ast.AstFunction
 
 class TypeClass(
-		evaluator: Evaluator,
-		env: Environment,
+		val env: Environment,
 		val declaration: AstClass
 ) : Type(declaration.name?.value ?: "Anonymous class") {
-	val parent = evaluator.unrefNullable(declaration.parent?.let { with(evaluator) {
-		env.evaluate(it.callee) }
-	}) as TypeClass?
-	val memberFunctions = declaration.members
-			.mapNotNull { it as? AstFunction }
-			.map { ValueFunction(env, it) }
+	var parent: TypeClass? = null
+	lateinit var memberConstructors: List<Pair<Environment, AstClassConstructor>>
+	lateinit var memberFunctions: List<ValueFunction>
+
+	fun Evaluator.init() {
+		parent = unrefNullable(declaration.parent?.let { env.evaluate(it.callee) }) as TypeClass?
+
+		memberConstructors = declaration.members
+				.filterIsInstance<AstClassConstructor>()
+				.map { Pair(env, it) }
+
+		memberFunctions = declaration.members
+				.filterIsInstance<AstFunction>()
+				.map { ValueFunction(env, it) }
+	}
 }

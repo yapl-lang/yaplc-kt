@@ -1,0 +1,5 @@
+package yapl.compiler.token
+
+class Token {
+
+}
