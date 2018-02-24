@@ -2,9 +2,9 @@ package yapl.parser.operator
 
 interface Operator {
 	enum class Type {
-		Suffix,
+		Prefix,
 		Binary,
-		Prefix
+		Postfix
 	}
 
 	val name: String

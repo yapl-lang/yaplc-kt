@@ -74,12 +74,10 @@ class TokenStream(sequence: Sequence<Token>) {
 		push()
 		try {
 			val value = context.callback()
-			if (!context.done) {
-				release()
-			}
+			if (!context.done) release()
 			return value
 		} catch (e: Throwable) {
-			pop()
+			if (!context.done) pop()
 			throw e
 		}
 	}

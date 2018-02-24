@@ -9,6 +9,7 @@ import yapl.compiler.{
 		TokenIdentifier
 		TokenLineComment
 		TokenNewline
+		TokenSemicolon
 		TokenWhitespace
 	}
 }
@@ -29,7 +30,8 @@ class Tokenizer {
 			else if isWhitespace(c) then {
 				yield(TokenWhitespace(c ~ reader->takeWhile(isWhitespace)))
 			} else if c == '#' then yield(TokenLineComment(reader->takeWhile(fun (it) = not isNewline(it))))
-
+			else if c == ';' then yield(TokenSemicolon())
+			else if c == '\'' then {}
 		}
 
 		TokenStream(tokens)

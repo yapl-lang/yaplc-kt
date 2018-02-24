@@ -3,10 +3,7 @@ package yapl.parser
 import yapl.common.Bound
 import yapl.common.Position
 import yapl.parser.ast.*
-import yapl.parser.operator.BinaryOperator
-import yapl.parser.operator.Operator
-import yapl.parser.operator.OperatorSet
-import yapl.parser.operator.binaryOperators
+import yapl.parser.operator.*
 import yapl.parser.token.*
 import kotlin.reflect.KClass
 
@@ -236,8 +233,8 @@ class Parser(private val tokens: TokenStream) {
 					expectedPunctuation('}')
 					return@parse AstImportGroup(AstDotDelimitedName(entries), children)
 				}
-				is TokenIdentifier  -> entries.add(next.value)
-				else                -> TODO("Unexpected")
+				is TokenIdentifier -> entries.add(next.value)
+				else -> TODO("Unexpected")
 			}
 		}
 
@@ -302,9 +299,9 @@ class Parser(private val tokens: TokenStream) {
 	} else listOf()
 
 	fun parseFunctionBody() = when {
-		skip<TokenPunctuation> { it.value == '=' }   -> parseExpression()
+		skip<TokenPunctuation> { it.value == '=' } -> parseExpression()
 		nextIs<TokenPunctuation> { it.value == '{' } -> parseBlockExpression()
-		else                                         -> null
+		else -> null
 	}
 
 	fun parseFunction(requireFunKeyword: Boolean = true, isExpression: Boolean = false) = parse {
@@ -550,6 +547,27 @@ class Parser(private val tokens: TokenStream) {
 		return@parse left
 	}
 
+	private fun parseMaybePrefixOperator(parseFun: () -> AstExpression): AstExpression {
+		val operator = selectOperator(prefixOperators)
+				?: tokens.push {
+			val name = parseOptional { parseName() }
+
+			prefixOperators.named[name?.value] ?: run { pop(); null }
+		} ?: return parseFun()
+
+		return AstPrefixOperator(operator, parseExpression())
+	}
+
+	private fun parseMaybeSuffixOperator(parseFun: () -> AstExpression): AstExpression {
+		val operand = parseFun()
+		val operator = selectOperator(postfixOperators) ?: return operand
+
+		return AstPostfixOperator(operand, operator)
+	}
+
+	private fun parseMaybeUnary(parseFun: () -> AstExpression): AstExpression =
+			parseMaybePrefixOperator(parseFun)
+
 	fun parseStringLiteral() = parse { AstStringLiteralExpression(expected<TokenStringLiteral>().value) }
 	fun parseCharLiteral() = parse { AstCharLiteralExpression(expected<TokenCharLiteral>().value) }
 	fun parseNumberLiteral() = parse {
@@ -573,7 +591,7 @@ class Parser(private val tokens: TokenStream) {
 			?: error("Unexpected")
 
 	fun parseExpression(): AstExpression = parse {
-		parseMaybeBinary(parseAtom(), 0)
+		parseMaybeUnary { parseMaybeBinary(parseAtom(), 0) }
 	}
 
 	fun parseBlockExpression() = parse {

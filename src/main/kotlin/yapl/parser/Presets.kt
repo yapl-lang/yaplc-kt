@@ -51,7 +51,7 @@ object Presets {
 			"struct",
 			"operator",
 
-			"or", "and",
+			"not", "or", "and",
 
 			"plus", "minus",
 			"times", "div",

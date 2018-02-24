@@ -7,6 +7,7 @@ import java.math.BigDecimal
 
 class Evaluator(vararg val importers: Importer) {
 	private val binaryOperatorEvaluator = BinaryOperatorEvaluator(this)
+	private val prefixOperatorEvaluator = PrefixOperatorEvaluator(this)
 	private val imported = mutableMapOf<String, Environment?>()
 
 	val rootEnv = Environment().apply {
@@ -376,6 +377,15 @@ class Evaluator(vararg val importers: Importer) {
 		is AstNumberLiteralExpression -> ValueNumber(BigDecimal(expr.beforeComma +
 				"." + (expr.afterComma ?: "0") +
 				"e" + (expr.afterE ?: "0")))
+		is AstPrefixOperator -> {
+			val operand = unref(evaluate(expr.operand))
+
+			val result = with(prefixOperatorEvaluator) {
+				evaluate(expr.operator, operand) ?: throw RuntimeException("Can't evaluate operator")
+			}
+
+			result
+		}
 		is AstBinaryOperator -> when (expr.operator) {
 			BinaryOperator.Member -> {
 				val left = unref(evaluate(expr.left))

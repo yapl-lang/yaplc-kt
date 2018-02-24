@@ -30,7 +30,7 @@ class ScriptImporter(val root: Path, val packageRoot: String = "") : Importer {
 			writer.flush()
 			return ast
 		} catch (e: ParseError) {
-			println("Error ${e.bound}: ${e.message}")
+			println("Error in '$`package`' ${e.bound}: ${e.message}")
 			throw e
 		}
 	}

@@ -116,36 +116,11 @@ class BinaryOperatorEvaluator(val evaluator: Evaluator) {
 		}
 
 		defineOperator(BinaryOperator.Concat) { a: Value, b: Value ->
-			fun stringRepresent(value: Value) = when (value) {
-				is ValueString -> value.value
-				is ValueNumber -> value.value.toPlainString().replace("\\.0$".toRegex(), "")
-				is ValueBoolean -> if (value.value) "true" else "false"
-				is ValueArray -> "array"
-				is ValueFunction -> "function"
-				is ValueNull -> "null"
-				is ValueVoid -> "void"
-				is ValueNothing -> "nothing"
-				is ValueClass -> {
-					try {
-						(with(evaluator) {
-							call(AstCallExpression(AstReferenceExpression(AstName(""))),
-									value.getMember("toString"))
-						} as ValueString).value
-					} catch (_: Throwable) {
-						"class ${value.type?.name}"
-					}
-				}
-				else -> TODO()
-			}
-
-			ValueString(stringRepresent(a) + stringRepresent(b))
+			with(evaluator) { ValueString(stringRepresent(a) + stringRepresent(b)) }
 		}
 	}
 
 	fun Environment.evaluate(operator: BinaryOperator, a: Value, b: Value): Value? {
-//		val aClass = a::class
-//		val bClass = b::class
-
 		@Suppress("UNCHECKED_CAST")
 		val entry = operatorMap.filter { it.operator == operator }
 				.firstOrNull { it.a.isInstance(a) && it.b.isInstance(b) }

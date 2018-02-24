@@ -4,4 +4,6 @@ import yapl.compiler.token.Token
 
 class TokenWhitespace(val text: String) extends Token {
 	val isWhitespace = true
+
+	fun toString = "Class TokenWhitespace " ~ text
 }

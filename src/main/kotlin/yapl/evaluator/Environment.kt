@@ -1,5 +1,9 @@
 package yapl.evaluator
 
+import yapl.parser.ast.AstCallExpression
+import yapl.parser.ast.AstName
+import yapl.parser.ast.AstReferenceExpression
+
 class Environment(val parent: Environment? = null) {
 	private val ownVars = mutableMapOf<String, Value>()
 
@@ -39,5 +43,25 @@ class Environment(val parent: Environment? = null) {
 		if (receiver is ValueClass) receiver.members.forEach { key, _ ->
 			setLocalVariable(key, ValueMemberReference(receiver, key))
 		}
+	}
+
+	fun Evaluator.stringRepresent(value: Value): String = when (value) {
+		is ValueString -> value.value
+		is ValueNumber -> value.value.toPlainString().replace("\\.0$".toRegex(), "")
+		is ValueBoolean -> if (value.value) "true" else "false"
+		is ValueArray -> "array"
+		is ValueFunction -> "function"
+		is ValueNull -> "null"
+		is ValueVoid -> "void"
+		is ValueNothing -> "nothing"
+		is ValueClass -> {
+			try {
+				stringRepresent(call(AstCallExpression(AstReferenceExpression(AstName(""))),
+						value.getMember("toString")))
+			} catch (_: Throwable) {
+				"class ${value.type?.name}"
+			}
+		}
+		else -> TODO()
 	}
 }
