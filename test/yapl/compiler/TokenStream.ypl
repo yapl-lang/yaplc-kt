@@ -4,6 +4,6 @@ import yapl.collection.{
     ArrayList
 }
 
-class TokenStream {
-    constructor(val tokens: ArrayList)
+class TokenStream(val tokens: ArrayList) {
+	fun getIterator = this->tokens->getIterator()
 }

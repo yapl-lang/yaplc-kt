@@ -340,14 +340,14 @@ class Evaluator(vararg val importers: Importer) {
 				nextFn = iterator.getMember("next")
 			}
 
-			lateinit var env: Environment
+			var env: Environment = extend()
 			fun hasNext() = (unref(env.call(AstCallExpression(AstReferenceExpression(AstName(""))), hasNextFn)) as ValueBoolean).value
 			fun next() = env.call(AstCallExpression(AstReferenceExpression(AstName(""))), nextFn)
 
 			fun iteration() = env.run {
 				setLocalVariable(variable.value, next())
 				evaluate(action)
-			}
+			}.also { env = extend() }
 
 			var current = if (hasNext()) iteration() else ValueNull
 			while (hasNext()) current = iteration()
@@ -371,6 +371,7 @@ class Evaluator(vararg val importers: Importer) {
 
 			current
 		}
+		is AstCharLiteralExpression -> ValueString(expr.value.toString())
 		is AstStringLiteralExpression -> ValueString(expr.value)
 		is AstNumberLiteralExpression -> ValueNumber(BigDecimal(expr.beforeComma +
 				"." + (expr.afterComma ?: "0") +

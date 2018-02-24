@@ -1,5 +1,5 @@
 package yapl.compiler.token
 
 class Token {
-
+	val isWhitespace = false
 }

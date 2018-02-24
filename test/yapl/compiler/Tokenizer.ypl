@@ -4,12 +4,34 @@ import yapl.collection.ArrayList
 import yapl.compiler.{
 	Reader
 	TokenStream
+	token.{
+		Token
+		TokenIdentifier
+		TokenLineComment
+		TokenNewline
+		TokenWhitespace
+	}
 }
+
+fun isNewline(c) = c == '\n'
+fun isWhitespace(c) = c == ' ' or c == '\t'
 
 class Tokenizer {
 	fun tokenize(reader: Reader) -> TokenStream {
 		val tokens = ArrayList()
 
-		tokens
+		fun yield(token) {
+			tokens->add(token)
+		}
+
+		while (val c = reader->next()) != null do {
+			if isNewline(c) then yield(TokenNewline())
+			else if isWhitespace(c) then {
+				yield(TokenWhitespace(c ~ reader->takeWhile(isWhitespace)))
+			} else if c == '#' then yield(TokenLineComment(reader->takeWhile(fun (it) = not isNewline(it))))
+
+		}
+
+		TokenStream(tokens)
 	}
 }

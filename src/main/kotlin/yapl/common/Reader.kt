@@ -32,6 +32,7 @@ fun Reader.readMaybeEscaped(): Char {
 		return when (underEscape) {
 			'0' -> 0.toChar()
 			'n' -> '\n'
+			't' -> '\t'
 			else -> underEscape
 		}
 	}

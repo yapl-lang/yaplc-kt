@@ -33,6 +33,7 @@ class Tokenizer {
 						reader.takeWhile { it -> it != '\'' }
 						yield(TokenError(bound, "Character literal should contain only one character"))
 					}
+					reader.next()
 					yield(TokenCharLiteral(bound, char))
 				}
 				c == '"' -> {
