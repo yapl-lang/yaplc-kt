@@ -568,6 +568,20 @@ class Parser(private val tokens: TokenStream) {
 	private fun parseMaybeUnary(parseFun: () -> AstExpression): AstExpression =
 			parseMaybePrefixOperator(parseFun)
 
+	private fun parsePrefixOperator() = parse {
+		val operator = selectOperator(prefixOperators)
+				?: tokens.push {
+			val name = parseOptional { parseName() }
+
+			prefixOperators.named[name?.value] ?: run { pop(); null }
+		} ?: error("Operator expected")
+
+		val operand = parseAtom()
+
+		parseMaybeBinary(AstPrefixOperator(operator, operand), operator.precedence)
+		//AstPrefixOperator(operator, )
+	}
+
 	fun parseStringLiteral() = parse { AstStringLiteralExpression(expected<TokenStringLiteral>().value) }
 	fun parseCharLiteral() = parse { AstCharLiteralExpression(expected<TokenCharLiteral>().value) }
 	fun parseNumberLiteral() = parse {
@@ -591,7 +605,8 @@ class Parser(private val tokens: TokenStream) {
 			?: error("Unexpected")
 
 	fun parseExpression(): AstExpression = parse {
-		parseMaybeUnary { parseMaybeBinary(parseAtom(), 0) }
+		parseMaybeBinary(parseOptional(::parsePrefixOperator) ?: parseAtom(), 0)
+		//parseOptional(::parsePrefixOperator) ?: parseMaybeBinary(parseAtom(), 0)
 	}
 
 	fun parseBlockExpression() = parse {

@@ -24,10 +24,13 @@ class ScriptImporter(val root: Path, val packageRoot: String = "") : Importer {
 
 		try {
 			val ast = Parser(tokens).parse()
-//			ast.tokens.lastOrNull()?.let { println("Stop at ${it.bound}") }
-			val writer = PrintWriter(System.out)
-//			AstDebugPrinter(writer).print(ast)
-			writer.flush()
+
+			val printAst = false
+			if (printAst) {
+				val writer = PrintWriter(System.out)
+				AstDebugPrinter(writer).print(ast)
+				writer.flush()
+			}
 			return ast
 		} catch (e: ParseError) {
 			println("Error in '$`package`' ${e.bound}: ${e.message}")

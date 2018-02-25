@@ -1,7 +1,7 @@
 package yapl.compiler
 
 import yapl.compiler.{
-    #TokenStream
+    TokenStream
     Tokenizer
     Reader
 }

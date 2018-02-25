@@ -18,22 +18,25 @@ class Evaluator(vararg val importers: Importer) {
 		createVariable("Null", TypeNull)
 		createVariable("Number", TypeNumber)
 		createVariable("String", TypeString)
+		createVariable("Char", TypeString)
 		createVariable("Void", TypeVoid)
 
 		createVariable("null", ValueNull)
+		createVariable("true", ValueBoolean(true))
+		createVariable("false", ValueBoolean(false))
 
 		createVariable("print", ValueInternalFunction(AstFunction(
 				parameters = listOf(AstFunctionParameter(AstDeclarationModifiers(listOf(
 						AstDeclarationModifier("vararg")
 				)), AstName("message"))))) { funEnv ->
-			(funEnv.getVariable("message") as ValueArray).value.forEach { print(it) }
+			(funEnv.getVariable("message") as ValueArray).value.forEach { print(stringRepresent(it)) }
 			ValueVoid
 		})
 		createVariable("println", ValueInternalFunction(AstFunction(
 				parameters = listOf(AstFunctionParameter(AstDeclarationModifiers(listOf(
 						AstDeclarationModifier("vararg")
 				)), AstName("message"))))) { funEnv ->
-			(funEnv.getVariable("message") as ValueArray).value.forEach { print(it) }
+			(funEnv.getVariable("message") as ValueArray).value.forEach { print(stringRepresent(it)) }
 			println()
 			ValueVoid
 		})
@@ -320,7 +323,7 @@ class Evaluator(vararg val importers: Importer) {
 		is AstCompoundExpression -> expr.expressions.map { evaluate(it) }.lastOrNull() ?: ValueVoid
 		is AstCallExpression -> call(expr)
 		is AstIfExpression -> when {
-			(evaluate(expr.condition) as ValueBoolean).value -> evaluate(expr.thenBlock)
+			(unref(evaluate(expr.condition)) as ValueBoolean).value -> evaluate(expr.thenBlock)
 			expr.elseBlock != null -> evaluate(expr.elseBlock)
 			else -> ValueVoid
 		}
