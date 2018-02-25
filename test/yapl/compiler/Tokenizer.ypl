@@ -28,8 +28,12 @@ class Tokenizer {
 			tokens->add(token)
 		}
 
-		fun error() {
+		fun error(message: String | Null = null) {
 			errored = true
+
+			println("Error \"" ~ message ~ "\" at " ~ reader->line ~ ":" ~ reader->column ~ (
+				if reader->column != reader->visibleColumn then " (" ~ reader->visibleColimn ~ ")" else ""
+			))
 		}
 
 		while not errored and (val c = reader->next()) != null do {
@@ -48,7 +52,7 @@ class Tokenizer {
 				}
 				if not reader->take('"') then error("Expected \"")
 				yield(TokenStringLiteral(str))
-			}
+			} else error("Unexpected")
 		}
 
 		TokenStream(tokens)

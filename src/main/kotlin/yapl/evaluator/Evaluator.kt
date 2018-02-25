@@ -144,7 +144,7 @@ class Evaluator(vararg val importers: Importer) {
 
 	fun Environment.checkType(value: Value, type: AstTypeReference): Boolean {
 		return when (type) {
-			is AstVariantType -> type.variants.any { checkType(value, type) }
+			is AstVariantType -> type.variants.any { checkType(value, it) }
 			is AstNamedTypeReference -> {
 				val typeVar = getVariable(type.value.value)
 				val type = when (typeVar) {

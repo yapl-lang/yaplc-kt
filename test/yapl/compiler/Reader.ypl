@@ -1,15 +1,24 @@
 package yapl.compiler
 
-class Reader(val source: String) {
+class Reader(val source: String, val tabSize: Number = 4) {
 	var offset: Number = 0
 	var line: Number = 1
 	var column: Number = 0
+	var visibleColumn: Number = 0
 
 	fun peek() -> Char | null = if this->eof() then null else this->source[this->offset]
 
 	fun next() -> Char | null = if this->eof() then null else {
 		val result = this->peek()
 		this->offset = this->offset + 1
+		this->column = this->column + 1
+		this->visibleColumn = this->visibleColumn + (if result == '\t' then this->tabSize else 1)
+		if result == '\n' then {
+			this->line = this->line + 1
+			this->column = 0
+			this->visibleColumn = 0
+		}
+
 		result
 	}
 
