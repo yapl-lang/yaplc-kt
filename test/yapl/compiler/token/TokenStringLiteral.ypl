@@ -2,4 +2,6 @@ package yapl.compiler.token
 
 import yapl.compiler.token.Token
 
-class TokenStringLiteral(val value: String) extends Token
+class TokenStringLiteral(val value: String) : Token() {
+	fun toString = "StringLiteral(\"" ~ this->value ~ "\")"
+}

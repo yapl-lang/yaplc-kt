@@ -41,6 +41,8 @@ class ArrayList {
 		if found then i else null
 	}
 
+	fun contains(element) -> Boolean = this->find(element) != null
+
 	operator fun [](index: Number) =
 		if this->isValidIndex(index) then this->elements[index] else null
 

@@ -50,6 +50,7 @@ object Presets {
 			"vararg",
 			"struct",
 			"operator",
+			"object",
 
 			"not", "or", "and",
 
@@ -64,7 +65,7 @@ object Presets {
 
 	val DeclarationModifiers = mapOf<Any, List<String>>(
 			AstFunction::class to listOf("operator"),
-			AstClass::class to listOf("struct"),
+			AstClass::class to listOf("struct", "object"),
 			AstFunctionParameter::class to listOf("val", "var", "vararg")
 	)
 }

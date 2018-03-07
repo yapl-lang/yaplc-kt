@@ -18,7 +18,7 @@ class ValueClass(val env: Environment, type: TypeClass) : Value(type) {
 	}
 
 	fun getMember(name: String) = members[name] ?: bindMethod(name)
-			?: throw RuntimeException("Member $name does not exist")
+			?: throw RuntimeException("Member $name does not exist on ${toString()}")
 
 	fun setMember(name: String, value: Value) {
 		members[name] = value

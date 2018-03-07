@@ -80,20 +80,30 @@ class Evaluator(vararg val importers: Importer) {
 
 	private fun Environment.createDeclaration(declaration: AstDeclaration) {
 		val name = declaration.name ?: return
-		when (declaration) {
+
+		createVariable(name.value, evaluate(declaration))
+		/*when (declaration) {
 			is AstClass -> TypeClass(this, declaration).let {
 				setLocalVariable("this", it)
 				createVariable(name.value, it)
 			}
 			is AstFunction -> createVariable(name.value, ValueFunction(this, declaration))
+			is AstVariableDeclaration -> evaluate(declaration)
 			else -> println("Unknown declaration type ${declaration::class.simpleName}")
-		}
+		}*/
 	}
 
 	private fun Environment.applyDeclaration(declaration: AstDeclaration) {
-		val name = declaration.name ?: return
+		val name = declaration.name?.value ?: return
 		when (declaration) {
-			is AstClass -> (getVariable(name.value) as TypeClass).run { init() }
+			is AstClass -> {
+				(getVariable(name) as TypeClass).run { init() }
+
+				if (declaration.modifiers.has("object")) {
+					val instance = instantiate(AstCallExpression(AstReferenceExpression(AstName(""))), getVariable(name) as TypeClass)
+					setVariable(name, instance)
+				}
+			}
 		}
 	}
 
@@ -161,12 +171,22 @@ class Evaluator(vararg val importers: Importer) {
 		}
 	}
 
+	fun typeRefRepresent(type: AstTypeReference): String = when (type) {
+		is AstNamedTypeReference -> type.value.value
+		is AstVariantType -> type.variants.joinToString { typeRefRepresent(it) }
+		else -> "Unknown type"
+	}
+
 	fun assertType(value: Value, type: Type) {
 		if (!checkType(value, type)) throw RuntimeException("TypeError")
 	}
 
 	fun Environment.assertType(value: Value, type: AstTypeReference) {
-		if (!checkType(value, type)) throw RuntimeException("TypeError")
+		if (!checkType(value, type)) {
+			val stringValue = stringRepresent(value)
+			val stringType = typeRefRepresent(type)
+			throw RuntimeException("TypeError: $stringValue had to be $stringType")
+		}
 	}
 
 	fun unref(value: Value): Value = when (value) {
@@ -308,15 +328,16 @@ class Evaluator(vararg val importers: Importer) {
 	}
 
 	fun Environment.evaluate(expr: AstExpression): Value = when (expr) {
-		is AstFunction -> ValueFunction(this, expr).also { func ->
-			expr.name?.let { createVariable(it.value, func) } // TODO: Check
-		}
-		is AstVariableDeclaration -> {
-			(if (expr.initializer != null) unref(evaluate(expr.initializer)) else ValueNull).let {
-				expr.type?.let { type -> assertType(it, type) }
-				createVariable(expr.name.value,
-						it) ?: throw RuntimeException("Variable already exist")
+		is AstDeclaration -> extend().let { env ->
+			val value = when (expr) {
+				is AstFunction -> ValueFunction(env, expr)
+				is AstClass -> TypeClass(env, expr).also { setLocalVariable("this", it) }
+				is AstVariableDeclaration -> (if (expr.initializer != null) unref(evaluate(expr.initializer)) else ValueNull).also {
+					expr.type?.let { type -> env.assertType(it, type) }
+				}
+				else -> TODO()
 			}
+			expr.name?.let { createVariable(it.value, value) } ?: value // TODO: Check
 		}
 		is AstReferenceExpression -> getVariableReference(expr.name.value) ?: throw RuntimeException(
 				"Variable ${expr.name.value} is not declared")
@@ -329,34 +350,48 @@ class Evaluator(vararg val importers: Importer) {
 		}
 		is AstForLoopExpression -> {
 			val variable = expr.variable
-			val range = unref(evaluate(expr.range)) as ValueClass
+			val range = unref(evaluate(expr.range))
 			val action = expr.action
 
-			lateinit var hasNextFn: Value
-			lateinit var nextFn: Value
-			try {
-				hasNextFn = range.getMember("hasNext")
-				nextFn = range.getMember("next")
-			} catch (_: Throwable) {
-				val iterator = call(AstCallExpression(AstReferenceExpression(AstName(""))),
-						range.getMember("getIterator")) as ValueClass
-				hasNextFn = iterator.getMember("hasNext")
-				nextFn = iterator.getMember("next")
+			when (range) {
+				is ValueClass -> {
+					lateinit var hasNextFn: Value
+					lateinit var nextFn: Value
+					try {
+						hasNextFn = range.getMember("hasNext")
+						nextFn = range.getMember("next")
+					} catch (_: Throwable) {
+						val iterator = call(AstCallExpression(AstReferenceExpression(AstName(""))),
+								range.getMember("getIterator")) as ValueClass
+						hasNextFn = iterator.getMember("hasNext")
+						nextFn = iterator.getMember("next")
+					}
+
+					var env: Environment = extend()
+					fun hasNext() = (unref(env.call(AstCallExpression(AstReferenceExpression(AstName(""))), hasNextFn)) as ValueBoolean).value
+					fun next() = env.call(AstCallExpression(AstReferenceExpression(AstName(""))), nextFn)
+
+					fun iteration() = env.run {
+						setLocalVariable(variable.value, next())
+						evaluate(action)
+					}.also { env = extend() }
+
+					var current = if (hasNext()) iteration() else ValueNull
+					while (hasNext()) current = iteration()
+
+					current
+				}
+				is ValueArray -> {
+					var current: Value = ValueNull
+					for (i in range.value) extend().apply {
+						setLocalVariable(variable.value, i)
+						current = evaluate(action)
+					}
+
+					current
+				}
+				else -> TODO()
 			}
-
-			var env: Environment = extend()
-			fun hasNext() = (unref(env.call(AstCallExpression(AstReferenceExpression(AstName(""))), hasNextFn)) as ValueBoolean).value
-			fun next() = env.call(AstCallExpression(AstReferenceExpression(AstName(""))), nextFn)
-
-			fun iteration() = env.run {
-				setLocalVariable(variable.value, next())
-				evaluate(action)
-			}.also { env = extend() }
-
-			var current = if (hasNext()) iteration() else ValueNull
-			while (hasNext()) current = iteration()
-
-			current
 		}
 		is AstWhileLoopExpression -> {
 			val condition = expr.condition
@@ -397,6 +432,17 @@ class Evaluator(vararg val importers: Importer) {
 				when (left) {
 					is ValueClass -> ValueMemberReference(left, right)
 					is ValueString -> when (right) {
+						"contains" -> ValueInternalFunction(AstFunction(
+								name = AstName("contains"),
+								parameters = listOf(AstFunctionParameter(name = AstName("char"), type = AstNamedTypeReference(AstName("Char")))),
+								returnTypes = listOf(AstVariantType(listOf(
+										AstNamedTypeReference(AstName("Char")),
+										AstNamedTypeReference(AstName("Null"))
+								)))
+						)) { env ->
+							val str = (unref(env.getLocalVariable("char")!!) as ValueString).value
+							ValueBoolean(left.value.contains(str))
+						}
 						"length" -> ValueNumber(left.value.length)
 						else -> ValueNothing
 					}

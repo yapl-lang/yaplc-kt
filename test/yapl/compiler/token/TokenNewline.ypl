@@ -2,6 +2,8 @@ package yapl.compiler.token
 
 import yapl.compiler.token.Token
 
-class TokenNewline extends Token {
+class TokenNewline : Token() {
 	val isWhitespace = true
+
+	fun toString = "Newline"
 }

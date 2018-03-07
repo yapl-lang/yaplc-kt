@@ -576,10 +576,14 @@ class Parser(private val tokens: TokenStream) {
 			prefixOperators.named[name?.value] ?: run { pop(); null }
 		} ?: error("Operator expected")
 
-		val operand = parseAtom()
+//		val operand = parseAtom()
+		val operand = parseMaybeBinary(parseAtom(), operator.precedence)
 
-		parseMaybeBinary(AstPrefixOperator(operator, operand), operator.precedence)
-		//AstPrefixOperator(operator, )
+		AstPrefixOperator(operator, operand)
+
+//		parseMaybeBinary(AstPrefixOperator(operator, operand), operator.precedence)
+//		parseMaybeBinary(AstPrefixOperator(operator, operand), operator.precedence)
+//		AstPrefixOperator(operator, )
 	}
 
 	fun parseStringLiteral() = parse { AstStringLiteralExpression(expected<TokenStringLiteral>().value) }
@@ -605,6 +609,7 @@ class Parser(private val tokens: TokenStream) {
 			?: error("Unexpected")
 
 	fun parseExpression(): AstExpression = parse {
+		//parseOptional(::parsePrefixOperator) ?: parseMaybeBinary(parseAtom(), 0)
 		parseMaybeBinary(parseOptional(::parsePrefixOperator) ?: parseAtom(), 0)
 		//parseOptional(::parsePrefixOperator) ?: parseMaybeBinary(parseAtom(), 0)
 	}

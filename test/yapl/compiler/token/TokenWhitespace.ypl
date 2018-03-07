@@ -2,8 +2,8 @@ package yapl.compiler.token
 
 import yapl.compiler.token.Token
 
-class TokenWhitespace(val text: String) extends Token {
+class TokenWhitespace(val value: String) : Token() {
 	val isWhitespace = true
 
-	fun toString = "Class TokenWhitespace " ~ text
+	fun toString = "Whitespace(\"" ~ this->value ~ "\")"
 }

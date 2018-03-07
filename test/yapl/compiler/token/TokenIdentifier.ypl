@@ -2,6 +2,6 @@ package yapl.compiler.token
 
 import yapl.compiler.token.Token
 
-class TokenIdentifier extends Token {
-
+class TokenIdentifier(val value: String) : Token() {
+	fun toString = "Identifier(\"" ~ this->value ~ "\")"
 }

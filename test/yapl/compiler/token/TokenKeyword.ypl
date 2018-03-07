@@ -1,0 +1,7 @@
+package yapl.compiler.token
+
+import yapl.compiler.token.Token
+
+class TokenKeyword(val value: String) : Token() {
+	fun toString = "Keyword(\"" ~ this->value ~ "\")"
+}
