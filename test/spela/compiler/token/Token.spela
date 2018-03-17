@@ -1,0 +1,5 @@
+package spela.compiler.token
+
+class Token {
+	val isWhitespace = false
+}

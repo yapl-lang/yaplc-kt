@@ -1,0 +1,18 @@
+package spela.compiler.parser.nodes
+
+import spela.compiler.parser.nodes.{
+	AstNode
+	AstPackage
+#	AstImport
+#	AstDefinition
+}
+
+class AstFile : AstNode() {
+	var `package`: AstPackage | Null = null
+
+	constructor() {
+		this->include(AstPackage, ref this->`package`, optional: true)
+#		this->list(AstImport, optional: true)
+#		this->list(AstDefinition, optional: true)
+	}
+}

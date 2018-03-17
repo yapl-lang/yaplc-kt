@@ -1,0 +1,7 @@
+package spela.compiler.parser.nodes
+
+class AstNode() {
+	fun parse() {
+
+	}
+}

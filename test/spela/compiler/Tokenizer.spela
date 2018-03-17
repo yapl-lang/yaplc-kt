@@ -1,0 +1,98 @@
+package spela.compiler
+
+import spela.collection.ArrayList
+import spela.compiler.{
+	Reader
+	TokenStream
+	Presets
+	token.{
+		Token
+		TokenCharLiteral
+		TokenIdentifier
+		TokenKeyword
+		TokenLineComment
+		TokenNewline
+		TokenPunctuation
+		TokenSemicolon
+		TokenStringLiteral
+		TokenWhitespace
+	}
+}
+
+fun isNewline(c: Char) = c == '\n'
+fun isWhitespace(c: Char) = c == ' ' or c == '\t'
+fun isDigit(c: Char) = "0123456789"->contains(c)
+fun isIdentifierStart(c: Char) = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_"->contains(c)
+fun isIdentifierPart(c: Char) = isIdentifierStart(c) or isDigit(c)
+fun isPunctuation(c: Char) = Presets->Punctuations->contains(c)
+
+class Tokenizer {
+	fun tokenize(reader: Reader) -> TokenStream {
+		val tokens = ArrayList()
+		var errored = false
+
+		fun yield(token: Token) {
+			# TODO: Mark token with offset
+
+			tokens->add(token)
+		}
+
+		fun error(message: String | Null = null) {
+			errored = true
+
+			println("Error \"" ~ message ~ "\" at " ~ reader->line ~ ":" ~ reader->column ~ (
+				if reader->column != reader->visibleColumn then " (" ~ reader->visibleColumn ~ ")" else ""
+			))
+		}
+
+		while not errored and (val c = reader->next()) != null do {
+			if isNewline(c) then yield(TokenNewline())
+			else if isWhitespace(c) then {
+				yield(TokenWhitespace(c ~ reader->takeWhile(isWhitespace)))
+			} else if c == '#' then yield(TokenLineComment(reader->takeWhile(fun (it) = not isNewline(it))))
+			else if c == ';' then yield(TokenSemicolon())
+			else if c == '\'' then {
+				yield(TokenCharLiteral(reader->readMaybeEscaped()))
+				if not reader->take('\'') then error("Expected '")
+			} else if c == '"' then {
+				var str = ""
+				while not reader->eof() and reader->peek() != '"' do
+					str = str ~ reader->readMaybeEscaped()
+
+				if not reader->take('"') then
+					error("Expected \"")
+				else
+					yield(TokenStringLiteral(str))
+			} else if isPunctuation(c) then {
+				yield(TokenPunctuation(c))
+			} else if isDigit(c) then {
+				val beforeComma = c ~ reader->takeWhile(isDigit)
+				val afterComma = if reader->take('.') then reader->takeWhile(isDigit) else null
+				val afterE = if reader->take('e') then reader->takeWhile(isDigit) else null
+
+				yield(TokenNumberLiteral(beforeComma, afterComma, afterE))
+			} else if isIdentifierStart(c) then {
+				val id = c ~ reader->takeWhile(isIdentifierPart)
+
+				yield(if Presets->Keywords->contains(id) then
+						TokenKeyword(id)
+					else
+						TokenIdentifier(id)
+				)
+			} else if c == '`' then {
+				var id = ""
+
+				while (val char = reader->next()) != '`' do {
+					if char == null then
+						error("Expected `")
+					else
+						id = id ~ char
+				}
+
+				yield(TokenIdentifier(id))
+			} else error("Unexpected")
+		}
+
+		TokenStream(tokens)
+	}
+}

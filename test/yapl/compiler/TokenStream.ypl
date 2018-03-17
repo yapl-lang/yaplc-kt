@@ -1,9 +1,0 @@
-package yapl.compiler
-
-import yapl.collection.{
-    ArrayList
-}
-
-class TokenStream(val tokens: ArrayList) {
-	fun getIterator = this->tokens->getIterator()
-}

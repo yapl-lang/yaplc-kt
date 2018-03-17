@@ -1,0 +1,9 @@
+package spela.compiler.token
+
+import spela.compiler.token.Token
+
+class TokenLineComment(val value: String) : Token() {
+	val isWhitespace = true
+
+	fun toString = "LineComment(\"" ~ this->value ~ "\")"
+}

@@ -1,0 +1,40 @@
+package spela.compiler
+
+import spela.collection.ArrayList
+import spela.collection.listOf
+
+fun splitStr(str: String) {
+	val list = ArrayList()
+	for i in 0..<str->length do list->add(str[i])
+	list
+}
+
+object class Presets {
+	val Punctuations = splitStr(".,!=+-*/%^~&|<>?[](){}:@")
+
+	val Keywords = listOf(
+			"package"
+			"import"
+
+			"fun"
+			"class"
+
+			"as"
+
+			"val"
+			"var"
+
+			"if"
+			"then"
+			"else"
+
+			"for"
+			"in"
+
+			"while"
+
+			"do"
+
+			"return"
+	)
+}

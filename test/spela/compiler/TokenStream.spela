@@ -1,0 +1,9 @@
+package spela.compiler
+
+import spela.collection.{
+    ArrayList
+}
+
+class TokenStream(val tokens: ArrayList) {
+	fun getIterator = this->tokens->getIterator()
+}

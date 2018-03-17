@@ -1,0 +1,17 @@
+package spela.compiler
+
+import spela.compiler.{
+    TokenStream
+    Tokenizer
+    Reader
+}
+import spela.collection.ArrayList
+
+fun main(vararg args: String) {
+	var file = ert_readFile("test/spela/compiler/main.spela")
+
+	val reader = Reader(file)
+	val tokens = Tokenizer()->tokenize(reader)
+
+	for token in tokens do println(token)
+}

@@ -1,0 +1,7 @@
+package spela.compiler.token
+
+import spela.compiler.token.Token
+
+class TokenIdentifier(val value: String) : Token() {
+	fun toString = "Identifier(\"" ~ this->value ~ "\")"
+}

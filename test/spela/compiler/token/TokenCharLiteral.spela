@@ -1,0 +1,7 @@
+package spela.compiler.token
+
+import spela.compiler.token.Token
+
+class TokenCharLiteral(val value: Char) : Token() {
+	fun toString = "CharLiteral(\"" ~ this->value ~ "\")"
+}

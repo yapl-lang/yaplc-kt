@@ -1,0 +1,50 @@
+package spela.collection
+
+import spela.collection.ArrayListIterator
+
+class ArrayList {
+	val length: Number = 0
+	val capacity = 16
+	val elements = ert_array(this->capacity)
+
+	fun isValidIndex(index: Number) = index >= 0 and index < this->length
+
+	fun add(element) {
+		if this->length >= this->capacity then {
+			val oldElements = this->elements
+			this->capacity = this->capacity * 2
+			this->elements = ert_array(this->capacity)
+			for i in 0..<this->length do this->elements[i] = oldElements[i]
+		}
+		this->elements[this->length] = element
+		this->length = this->length + 1
+		this
+	}
+
+	fun remove(index: Number) {
+		if this->isValidIndex(index) then {
+			for i in index + 1..<this->length do this->elements[i - 1] = this->elements[i]
+			this->length = this->length - 1
+		}
+		this
+	}
+
+	fun find(element) -> Number | Null {
+		var i = 0
+		var found = false
+
+		while not found and i < this->length do {
+			found = this->elements[i] == element
+			i = i + 1
+		}
+
+		if found then i else null
+	}
+
+	fun contains(element) -> Boolean = this->find(element) != null
+
+	operator fun [](index: Number) =
+		if this->isValidIndex(index) then this->elements[index] else null
+
+	fun getIterator() = ArrayListIterator(this, 0..<this->length)
+}

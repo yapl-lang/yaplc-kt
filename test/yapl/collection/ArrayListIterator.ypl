@@ -1,8 +1,0 @@
-package yapl.collection
-
-import yapl.collection.ArrayList
-
-class ArrayListIterator(val list: ArrayList, val range) {
-    fun hasNext -> Boolean = range->hasNext()
-    fun next = list[range->next()]
-}

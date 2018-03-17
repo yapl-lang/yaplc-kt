@@ -1,0 +1,9 @@
+package spela.compiler.token
+
+import spela.compiler.token.Token
+
+class TokenNewline : Token() {
+	val isWhitespace = true
+
+	fun toString = "Newline"
+}

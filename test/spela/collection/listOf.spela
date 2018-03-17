@@ -1,0 +1,9 @@
+package spela.collection
+
+import spela.collection.ArrayList
+
+fun listOf(vararg items: String) {
+	val list = ArrayList()
+	for item in items do list->add(item)
+	list
+}

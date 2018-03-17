@@ -1,0 +1,7 @@
+package spela.compiler.token
+
+import spela.compiler.token.Token
+
+class TokenKeyword(val value: String) : Token() {
+	fun toString = "Keyword(\"" ~ this->value ~ "\")"
+}

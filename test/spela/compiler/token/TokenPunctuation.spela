@@ -1,0 +1,7 @@
+package spela.compiler.token
+
+import spela.compiler.token.Token
+
+class TokenPunctuation(val value: Char) : Token() {
+	fun toString = "Punctuation(\"" ~ this->value ~ "\")"
+}

@@ -1,0 +1,11 @@
+package spela.compiler.parser.nodes
+
+import spela.compiler.parser.nodes.{
+	AstName
+}
+
+class AstDotDelimitedName : AstNode() {
+	constructor() {
+		this->list(AstName, delimiter: ".")
+	}
+}
