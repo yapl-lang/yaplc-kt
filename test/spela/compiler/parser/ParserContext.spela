@@ -1,0 +1,29 @@
+package spela.compiler.parser
+
+class ParserContext {
+	var _entered = false
+
+	var _error: String | Null = null
+	var _errorOffset: Number | Null = null
+	var _errorLine: Number | Null = null
+	var _errorColumn: Number | Null = null
+
+	fun enter() {
+		this->_entered = true
+	}
+
+	fun error(message: String) {
+		this->_error = message
+
+		# TODO: Set offset, line, column
+		this->_errorOffset = 0
+		this->_errorLine = 1
+		this->_errorColumn = 0
+	}
+
+	fun hasError() = this->_error != null
+
+	fun include() = if this->hasError() then null else {
+		
+	}
+}

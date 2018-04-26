@@ -5,6 +5,8 @@ enum class PrefixOperator(override val precedence: Int, override vararg val valu
 	Increment(1, "++", "inc"),
 	Decrement(1, "--", "dec"),
 
+	Typeof(32, "typeof")
+
 	;
 
 	override val type: Operator.Type = Operator.Type.Prefix

@@ -1,11 +1,16 @@
 package spela.compiler.parser.nodes
 
+import spela.collection.ArrayList
 import spela.compiler.parser.nodes.{
-	AstName
+	AstNode
 }
 
-class AstDotDelimitedName : AstNode() {
-	constructor() {
-		this->list(AstName, delimiter: ".")
-	}
+class AstDotDelimitedName(val values: ArrayList) : AstNode() {
+	val value = (fun {
+		val str = values[0]
+		for i in 1..<values->length do str = str ~ "." ~ values[i]
+		str
+	})()
+
+	fun toString() = this->value
 }

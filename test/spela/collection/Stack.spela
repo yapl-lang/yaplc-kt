@@ -1,0 +1,19 @@
+package spela.collection
+
+import spela.collection.ArrayList
+
+class Stack {
+	val _back = ArrayList()
+
+	fun push(element) {
+		this->_back->add(element)
+	}
+
+	fun pop() {
+		if _back->length == 0 then exit(0-1, "Pop on empty stack")
+
+		val value = this->_back[this->_back->length - 1]
+		this->_back->remove(this->_back->length - 1)
+		value
+	}
+}

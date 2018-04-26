@@ -12,6 +12,7 @@ import spela.compiler.{
 		TokenKeyword
 		TokenLineComment
 		TokenNewline
+		TokenNumberLiteral
 		TokenPunctuation
 		TokenSemicolon
 		TokenStringLiteral

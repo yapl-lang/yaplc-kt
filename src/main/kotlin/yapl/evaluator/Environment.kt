@@ -45,6 +45,27 @@ class Environment(val parent: Environment? = null) {
 		}
 	}
 
+	fun Evaluator.hashCode(value: Value): Int = when (value) {
+		is ValueString -> value.value.hashCode()
+		is ValueNumber -> value.value.hashCode()
+		is ValueBoolean -> if (value.value) 1 else 0
+		is ValueArray -> value.value.hashCode()
+		is ValueFunction -> value.function.hashCode()
+		is ValueNull -> 0
+		is ValueVoid -> 0
+		is ValueNothing -> 0
+		is ValueClass -> {
+			try {
+				hashCode(call(AstCallExpression(AstReferenceExpression(AstName(""))),
+						value.getMember("hashCode")))
+			} catch (_: Throwable) {
+				value.hashCode()
+			}
+		}
+		is Type -> value.hashCode()
+		else -> TODO()
+	}
+
 	fun Evaluator.stringRepresent(value: Value): String = when (value) {
 		is ValueString -> value.value
 		is ValueNumber -> value.value.toPlainString().replace("\\.0$".toRegex(), "")
@@ -59,9 +80,19 @@ class Environment(val parent: Environment? = null) {
 				stringRepresent(call(AstCallExpression(AstReferenceExpression(AstName(""))),
 						value.getMember("toString")))
 			} catch (_: Throwable) {
-				"class ${value.type?.name}"
+				"object ${value.type?.name}"
 			}
 		}
+		is TypeClass -> buildString {
+			append("class ")
+			append(value.declaration.name?.value ?: "anonymous")
+
+			value.declaration.parent?.let {
+				append(" extends ")
+				if (it.callee is AstReferenceExpression) append(it.callee.name.value)
+			}
+		}
+		is Type -> value.name
 		else -> TODO()
 	}
 }

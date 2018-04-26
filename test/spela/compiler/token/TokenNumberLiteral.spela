@@ -1,0 +1,19 @@
+package spela.compiler.token
+
+import spela.compiler.token.Token
+
+class TokenNumberLiteral(
+	val beforeComma: String | Null
+	val afterComma: String | Null
+	val afterE: String | Null
+) : Token() {
+	fun toString {
+		val str = "NumberLiteral("
+		if this->beforeComma != null then str = str ~ this->beforeComma
+		if this->afterComma != null then str = str ~ "." ~ this->afterComma
+		if this->afterE != null then str = str ~ "e" ~ this->afterE
+		str = str ~ ")"
+
+		str
+	}
+}

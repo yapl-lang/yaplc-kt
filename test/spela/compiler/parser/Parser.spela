@@ -1,0 +1,25 @@
+package spela.compiler.parser
+
+import spela.compiler.{
+	parser.nodes.{
+		AstFile
+	}
+	TokenStream
+}
+
+class Parser(val tokens: TokenStream) {
+	class Context {
+	}
+
+	fun parse(method) = method()
+
+	fun parsePackage() = this->parse {
+		null
+	}
+
+	fun parseFile() = this->parse {
+		AstFile(
+			`package`: this->parsePackage()
+		)
+	}
+}

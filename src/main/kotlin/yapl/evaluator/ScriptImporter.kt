@@ -13,7 +13,7 @@ import java.nio.file.StandardOpenOption
 class ScriptImporter(val root: Path, val packageRoot: String = "") : Importer {
 	override fun import(fullName: String): AstProgram? {
 		val `package` = packageRoot + (if (packageRoot.isEmpty()) "" else ".") + fullName
-		val path = `package`.replace(".", root.fileSystem.separator) + ".ypl"
+		val path = `package`.replace(".", root.fileSystem.separator) + ".spela"
 
 		val source = StringSource(Files.readAllLines(root.resolve(path)).joinToString("\n"))
 		val reader = source.createReader()
@@ -22,10 +22,10 @@ class ScriptImporter(val root: Path, val packageRoot: String = "") : Importer {
 		try {
 			val ast = Parser(tokens).parse()
 
-			val astFile = root.resolve(`package`.replace(".", root.fileSystem.separator) + ".ast.txt")
-			val writer = Files.newBufferedWriter(astFile, StandardOpenOption.CREATE)
-			AstDebugPrinter(writer).print(ast)
-			writer.flush()
+//			val astFile = root.resolve(`package`.replace(".", root.fileSystem.separator) + ".ast.txt")
+//			val writer = Files.newBufferedWriter(astFile, StandardOpenOption.CREATE)
+//			AstDebugPrinter(writer).print(ast)
+//			writer.flush()
 
 			return ast
 		} catch (e: ParseError) {

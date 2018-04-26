@@ -1,15 +1,16 @@
 package yapl.evaluator
 
-abstract class Type(val name: String) : Value(null) {
+abstract class Type(val name: String) : Value(TypeType) {
 	override fun toString() = "@Type($name)"
 }
 
-object TypeArray : Type("yapl.type.Array")
-object TypeBoolean : Type("yapl.type.Boolean")
-object TypeFunction : Type("yapl.type.Function")
-object TypeNothing : Type("yapl.type.Nothing")
-object TypeNull : Type("yapl.type.Null")
-object TypeNumber : Type("yapl.type.Number")
-object TypeReference : Type("yapl.type.Reference")
-object TypeString : Type("yapl.type.String")
-object TypeVoid : Type("yapl.type.Void")
+object TypeType : Type("spela.type.Type")
+object TypeArray : Type("spela.type.Array")
+object TypeBoolean : Type("spela.type.Boolean")
+object TypeFunction : Type("spela.type.Function")
+object TypeNothing : Type("spela.type.Nothing")
+object TypeNull : Type("spela.type.Null")
+object TypeNumber : Type("spela.type.Number")
+object TypeReference : Type("spela.type.Reference")
+object TypeString : Type("spela.type.String")
+object TypeVoid : Type("spela.type.Void")

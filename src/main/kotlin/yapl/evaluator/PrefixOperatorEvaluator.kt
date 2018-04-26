@@ -24,6 +24,10 @@ class PrefixOperatorEvaluator(val evaluator: Evaluator) {
 		defineOperator(PrefixOperator.Not) { it: ValueBoolean ->
 			ValueBoolean(!it.value)
 		}
+
+		defineOperator(PrefixOperator.Typeof) { it: Value ->
+			it.type!!
+		}
 	}
 
 	fun Environment.evaluate(operator: PrefixOperator, operand: Value): Value? {

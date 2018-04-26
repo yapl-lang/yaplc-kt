@@ -1,0 +1,67 @@
+package spela.collection
+
+class HashMapEntry(
+	val key
+	var value
+	var hash: Number
+	var next: HashMapEntry | Null
+)
+
+class HashMap {
+	var capacity = 16
+	var elements = ert_array(this->capacity)
+
+	fun hash(hashCode: Number) = hashCode % this->capacity
+	fun compareKeys(a, b) = a == b
+
+	fun get(key) {
+		val hashCode = key->hashCode()
+		val hash = this->hash(hashCode)
+
+		if this->elements[hash] == null then null
+		else {
+			var value = null
+			var entry = this->elements[hash]
+			while entry != null do {
+				if entry->hash == hashCode and this->compareKeys(key, entry->key) then {
+					value = entry->value
+					entry = null
+				} else {
+					entry = entry->next
+				}
+			}
+			value
+		}
+	}
+
+	fun put(key, value) {
+		val hashCode = key->hashCode()
+		val hash = this->hash(hashCode)
+
+		if this->elements[hash] == null then {
+			this->elements[hash] = HashMapEntry(
+				key: key
+				value: value
+				hash: hashCode
+				next: null
+			)
+		} else {
+			var entry = this->elements[hash]
+			while entry != null do {
+				if entry->hash == hashCode and this->compareKeys(key, entry->key) then {
+					entry->value = value
+					entry = null
+				} else if entry->next == null then {
+					entry->next = HashMapEntry(
+						key: key
+						value: value
+						hash: hashCode
+						next: null
+					)
+				} else {
+					entry = entry->next
+				}
+			}
+		}
+	}
+}

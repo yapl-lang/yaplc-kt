@@ -1,12 +1,7 @@
 package spela.compiler.parser.nodes
 
-import spela.compiler.parser.nodes.{
-	AstDotDelimitedName
+import spela.compiler.parser.{
+	nodes.AstDotDelimitedName
 }
 
-class AstPackage : AstNode() {
-	constructor() {
-		this->keyword("package")
-		this->node(AstDotDelimitedName, optional: true)
-	}
-}
+class AstPackage(values: ArrayList) : AstDotDelimitedName(values)

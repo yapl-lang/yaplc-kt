@@ -3,9 +3,9 @@ package spela.collection
 import spela.collection.ArrayListIterator
 
 class ArrayList {
-	val length: Number = 0
-	val capacity = 16
-	val elements = ert_array(this->capacity)
+	var length: Number = 0
+	var capacity = 16
+	var elements = ert_array(this->capacity)
 
 	fun isValidIndex(index: Number) = index >= 0 and index < this->length
 

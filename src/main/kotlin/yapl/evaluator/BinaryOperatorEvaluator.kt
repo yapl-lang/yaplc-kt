@@ -43,6 +43,9 @@ class BinaryOperatorEvaluator(val evaluator: Evaluator) {
 		defineOperator(BinaryOperator.Divide) { a: ValueNumber, b: ValueNumber ->
 			ValueNumber(a.value / b.value)
 		}
+		defineOperator(BinaryOperator.Module) { a: ValueNumber, b: ValueNumber ->
+			ValueNumber(a.value % b.value)
+		}
 		defineOperator(BinaryOperator.Equal) { a: ValueNumber, b: ValueNumber ->
 			ValueBoolean(a.value == b.value)
 		}
@@ -87,7 +90,7 @@ class BinaryOperatorEvaluator(val evaluator: Evaluator) {
 
 		defineOperator(BinaryOperator.Range) { a: ValueNumber, b: ValueNumber ->
 			with(evaluator) {
-				val rangeEnv = import("yapl.range.Range")!!
+				val rangeEnv = import("spela.range.Range")!!
 				val range = rangeEnv.getVariable("Range")!! as TypeClass
 				val env = extend()
 				env.setLocalVariable("begin", a)
@@ -102,7 +105,7 @@ class BinaryOperatorEvaluator(val evaluator: Evaluator) {
 
 		defineOperator(BinaryOperator.RangeClosed) { a: ValueNumber, b: ValueNumber ->
 			with(evaluator) {
-				val rangeEnv = import("yapl.range.RangeClosed")!!
+				val rangeEnv = import("spela.range.RangeClosed")!!
 				val range = rangeEnv.getVariable("RangeClosed")!! as TypeClass
 				val env = extend()
 				env.setLocalVariable("begin", a)

@@ -1,17 +1,30 @@
 package spela.compiler
 
 import spela.compiler.{
+	parser.Parser
     TokenStream
     Tokenizer
     Reader
 }
-import spela.collection.ArrayList
+import spela.collection.{
+	ArrayList
+	HashMap
+}
 
 fun main(vararg args: String) {
+	#println(typeof 123)
+	#println(typeof typeof 123)
+
 	var file = ert_readFile("test/spela/compiler/main.spela")
 
 	val reader = Reader(file)
 	val tokens = Tokenizer()->tokenize(reader)
 
-	for token in tokens do println(token)
+	val parser = Parser(tokens)
+
+	val ast = parser->parseFile()
+	println(ast)
+
+	#for token in tokens do println(token)
+	#while (val token = tokens->next(skipWhitespace: false)) != null do println(token)
 }

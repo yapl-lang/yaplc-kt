@@ -72,6 +72,19 @@ class Tokenizer {
 						else -> yield(TokenIdentifier(bound(), id))
 					}
 				}
+				c == '`' -> {
+					val value = buildString {
+						while (reader.peek() != '`') {
+							if (reader.eof()) {
+								yield(TokenError(bound(), "Expected closing brace '`'"))
+								break
+							}
+							append(reader.next())
+						}
+						reader.take('`')
+					}
+					yield(TokenIdentifier(bound(), value))
+				}
 				Presets.Punctuations.contains(c) -> yield(TokenPunctuation(bound(), c))
 				else -> {
 					yield(TokenError(bound(), "Unexpected '$c'"))

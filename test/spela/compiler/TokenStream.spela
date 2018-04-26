@@ -1,9 +1,46 @@
 package spela.compiler
 
 import spela.collection.{
-    ArrayList
+	ArrayList
+	Stack
 }
 
 class TokenStream(val tokens: ArrayList) {
-	fun getIterator = this->tokens->getIterator()
+	var _currentToken = 0
+	val _positionStack = Stack()
+
+	fun peek(offset: Number = 0, skipWhitespace: Boolean = true) {
+		val old = this->_currentToken
+		val token = this->next(offset, skipWhitespace)
+		this->_currentToken = old
+		token
+	}
+
+	fun next(offset: Number = 0, skipWhitespace: Boolean = true) {
+		offset = offset + 1
+
+		while offset != 0 do {
+			val token = this->tokens[this->_currentToken]
+			if token == null then {
+				offset = 0
+			} else {
+				if not (skipWhitespace and token->isWhitespace) then
+					offset = offset - 1
+				this->_currentToken = this->_currentToken + 1
+			}
+			token
+		}
+	}
+
+	fun push() {
+		this->_positionStack->push(this->_currentToken)
+	}
+
+	fun pop() {
+		this->_currentToken = this->_positionStack->pop()
+	}
+
+	fun release() {
+		this->_positionStack->pop()
+	}
 }

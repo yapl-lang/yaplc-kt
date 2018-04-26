@@ -11,6 +11,7 @@ class Evaluator(vararg val importers: Importer) {
 	private val imported = mutableMapOf<String, Environment?>()
 
 	val rootEnv = Environment().apply {
+		createVariable("Type", TypeType)
 		createVariable("Array", TypeArray)
 		createVariable("Boolean", TypeBoolean)
 		createVariable("Function", TypeFunction)
@@ -55,13 +56,42 @@ class Evaluator(vararg val importers: Importer) {
 			val path = (funEnv.getVariable("path") as ValueString).value
 			ValueString(File(path).readText())
 		})
+
+		createVariable("ert_apply", ValueInternalFunction(AstFunction(
+				parameters = listOf(
+						AstFunctionParameter(AstDeclarationModifiers(), AstName("object")),
+						AstFunctionParameter(AstDeclarationModifiers(), AstName("callee")),
+						AstFunctionParameter(AstDeclarationModifiers(), AstName("label"), default = AstReferenceExpression(AstName("null")))
+				))) { funEnv ->
+			val `object` = funEnv.getVariable("object") as ValueClass
+			val `callee` = funEnv.getVariable("callee")
+			val label = (funEnv.getVariable("label") as? ValueString)?.value
+
+			extend().apply {
+				call
+			}
+			//ValueString(File(path).readText())
+		})
+
+		createVariable("exit", ValueInternalFunction(AstFunction(
+				parameters = listOf(
+						AstFunctionParameter(AstDeclarationModifiers(), AstName("code"), default = AstNumberLiteralExpression("0")),
+						AstFunctionParameter(AstDeclarationModifiers(), AstName("message"), default = AstReferenceExpression(AstName("null")))
+				))) { funEnv ->
+			val code = (funEnv.getVariable("code") as ValueNumber).value.toInt()
+			val message = (funEnv.getVariable("message") as? ValueString)?.value
+
+			message?.let { println(it) }
+			System.exit(code)
+			ValueNothing
+		})
 	}
 
 	private fun Environment.applyImportGroup(import: AstImportGroup, path: String = "") {
 		val newPath = "$path${import.value.value}."
 		import.imports.forEach {
 			when (it) {
-				is AstImport -> applyImport(it, newPath)
+				is AstImport      -> applyImport(it, newPath)
 				is AstImportGroup -> applyImportGroup(it, newPath)
 			}
 		}
@@ -114,7 +144,7 @@ class Evaluator(vararg val importers: Importer) {
 	private fun Environment.applyEnv(program: AstProgram) {
 		program.imports.forEach {
 			when (it) {
-				is AstImport -> applyImport(it)
+				is AstImport      -> applyImport(it)
 				is AstImportGroup -> applyImportGroup(it)
 			}
 		}
@@ -154,27 +184,27 @@ class Evaluator(vararg val importers: Importer) {
 
 	fun Environment.checkType(value: Value, type: AstTypeReference): Boolean {
 		return when (type) {
-			is AstVariantType -> type.variants.any { checkType(value, it) }
+			is AstVariantType        -> type.variants.any { checkType(value, it) }
 			is AstNamedTypeReference -> {
 				val typeVar = getVariable(type.value.value)
 				val type = when (typeVar) {
-					null -> throw RuntimeException("Variable does not exist")
+					null    -> throw RuntimeException("Variable does not exist")
 					is Type -> typeVar
-					else -> if (typeVar is ValueClass)
+					else    -> if (typeVar is ValueClass)
 						typeVar.type!!
 					else
 						throw RuntimeException("The value is not a type")
 				}
 				checkType(value, type)
 			}
-			else -> false
+			else                     -> false
 		}
 	}
 
 	fun typeRefRepresent(type: AstTypeReference): String = when (type) {
 		is AstNamedTypeReference -> type.value.value
-		is AstVariantType -> type.variants.joinToString { typeRefRepresent(it) }
-		else -> "Unknown type"
+		is AstVariantType        -> type.variants.joinToString { typeRefRepresent(it) }
+		else                     -> "Unknown type"
 	}
 
 	fun assertType(value: Value, type: Type) {
@@ -191,14 +221,16 @@ class Evaluator(vararg val importers: Importer) {
 
 	fun unref(value: Value): Value = when (value) {
 		is ValueReference -> unref(value.value)
-		else -> value
+		else              -> value
 	}
 
 	fun unrefNullable(value: Value?): Value? = if (value == null) null else unref(value)
 
 	fun Environment.instantiate(call: AstCallExpression, callee: TypeClass, obj: ValueClass) {
-		callee.parent?.let { instantiate(call, it, obj) }
-		val constructor = callee.declaration.primaryConstructor ?: throw RuntimeException("Has no error")
+		callee.parent?.let { instantiate(callee.declaration.parent!!, it, obj) }
+
+		val constructor = callee.declaration.primaryConstructor
+				?: throw RuntimeException("Has no primary constructor")
 
 		val env = Environment(callee.env)
 		env.putReceiver(obj)
@@ -305,50 +337,52 @@ class Evaluator(vararg val importers: Importer) {
 	                     receiver: Value? = null): Value {
 		val callee = unref(calleeValue)
 		val declaration = when (callee) {
-			is ValueFunction -> callee.function
+			is ValueFunction         -> callee.function
 			is ValueInternalFunction -> callee.declaration
-			is ValueBindFunction -> return call(call, callee.callee, callee.receiver)
-			is TypeClass -> return instantiate(call, callee)
-			else -> throw RuntimeException("Not a callable")
+			is ValueBindFunction     -> return call(call, callee.callee, callee.receiver)
+			is TypeClass             -> return instantiate(call, callee)
+			else                     -> throw RuntimeException("Not a callable")
 		}
 		val env = when (callee) {
-			is ValueFunction -> callee.env
+			is ValueFunction         -> callee.env
 			is ValueInternalFunction -> this
-			else -> throw RuntimeException("Cannot happen")
+			else                     -> throw RuntimeException("Cannot happen")
 		}
 		val newEnv = Environment(env)
 		receiver?.let { newEnv.putReceiver(it) }
 		assignParams(this, newEnv, call.arguments, declaration.parameters, call.lambda)
 
 		return when (callee) {
-			is ValueFunction -> newEnv.evaluate(callee.function.body!!) // TODO: Check type
+			is ValueFunction         -> newEnv.evaluate(callee.function.body!!) // TODO: Check type
 			is ValueInternalFunction -> callee.function(newEnv)
-			else -> throw RuntimeException("Cannot happen")
+			else                     -> throw RuntimeException("Cannot happen")
 		}
 	}
 
 	fun Environment.evaluate(expr: AstExpression): Value = when (expr) {
-		is AstDeclaration -> extend().let { env ->
+		is AstDeclaration             -> extend().let { env ->
 			val value = when (expr) {
-				is AstFunction -> ValueFunction(env, expr)
-				is AstClass -> TypeClass(env, expr).also { setLocalVariable("this", it) }
+				is AstFunction            -> ValueFunction(env, expr)
+				is AstClass               -> TypeClass(env, expr).also { setLocalVariable("this", it) }
 				is AstVariableDeclaration -> (if (expr.initializer != null) unref(evaluate(expr.initializer)) else ValueNull).also {
 					expr.type?.let { type -> env.assertType(it, type) }
 				}
-				else -> TODO()
+				else                      -> TODO()
 			}
 			expr.name?.let { createVariable(it.value, value) } ?: value // TODO: Check
 		}
-		is AstReferenceExpression -> getVariableReference(expr.name.value) ?: throw RuntimeException(
-				"Variable ${expr.name.value} is not declared")
-		is AstCompoundExpression -> expr.expressions.map { evaluate(it) }.lastOrNull() ?: ValueVoid
-		is AstCallExpression -> call(expr)
-		is AstIfExpression -> when {
+		is AstReferenceExpression     -> getVariableReference(expr.name.value)
+				?: throw RuntimeException(
+						"Variable ${expr.name.value} is not declared")
+		is AstCompoundExpression      -> expr.expressions.map { evaluate(it) }.lastOrNull()
+				?: ValueVoid
+		is AstCallExpression          -> call(expr)
+		is AstIfExpression            -> when {
 			(unref(evaluate(expr.condition)) as ValueBoolean).value -> evaluate(expr.thenBlock)
-			expr.elseBlock != null -> evaluate(expr.elseBlock)
-			else -> ValueVoid
+			expr.elseBlock != null                                  -> evaluate(expr.elseBlock)
+			else                                                    -> ValueVoid
 		}
-		is AstForLoopExpression -> {
+		is AstForLoopExpression       -> {
 			val variable = expr.variable
 			val range = unref(evaluate(expr.range))
 			val action = expr.action
@@ -390,10 +424,10 @@ class Evaluator(vararg val importers: Importer) {
 
 					current
 				}
-				else -> TODO()
+				else          -> TODO()
 			}
 		}
-		is AstWhileLoopExpression -> {
+		is AstWhileLoopExpression     -> {
 			val condition = expr.condition
 			val action = expr.action
 
@@ -410,43 +444,57 @@ class Evaluator(vararg val importers: Importer) {
 
 			current
 		}
-		is AstCharLiteralExpression -> ValueString(expr.value.toString())
+		is AstCharLiteralExpression   -> ValueString(expr.value.toString())
 		is AstStringLiteralExpression -> ValueString(expr.value)
 		is AstNumberLiteralExpression -> ValueNumber(BigDecimal(expr.beforeComma +
 				"." + (expr.afterComma ?: "0") +
 				"e" + (expr.afterE ?: "0")))
-		is AstPrefixOperator -> {
+		is AstPrefixOperator          -> {
 			val operand = unref(evaluate(expr.operand))
 
 			val result = with(prefixOperatorEvaluator) {
-				evaluate(expr.operator, operand) ?: throw RuntimeException("Can't evaluate operator")
+				evaluate(expr.operator, operand)
+						?: throw RuntimeException("Can't evaluate operator")
 			}
 
 			result
 		}
-		is AstBinaryOperator -> when (expr.operator) {
-			BinaryOperator.Member -> {
+		is AstBinaryOperator          -> when (expr.operator) {
+			BinaryOperator.Member        -> {
 				val left = unref(evaluate(expr.left))
-				val right = (expr.right as? AstReferenceExpression ?: throw RuntimeException("Member name needed")).name.value
+				val right = (expr.right as? AstReferenceExpression
+						?: throw RuntimeException("Member name needed")).name.value
 
-				when (left) {
-					is ValueClass -> ValueMemberReference(left, right)
-					is ValueString -> when (right) {
-						"contains" -> ValueInternalFunction(AstFunction(
-								name = AstName("contains"),
-								parameters = listOf(AstFunctionParameter(name = AstName("char"), type = AstNamedTypeReference(AstName("Char")))),
-								returnTypes = listOf(AstVariantType(listOf(
-										AstNamedTypeReference(AstName("Char")),
-										AstNamedTypeReference(AstName("Null"))
-								)))
-						)) { env ->
-							val str = (unref(env.getLocalVariable("char")!!) as ValueString).value
-							ValueBoolean(left.value.contains(str))
+				when (right) {
+					"hashCode" -> ValueInternalFunction(AstFunction(
+							name = AstName("hashCode"),
+							returnTypes = listOf(
+									AstNamedTypeReference(AstName("Number"))
+							))) { ValueNumber(hashCode(left)) }
+					"toString" -> ValueInternalFunction(AstFunction(
+							name = AstName("toString"),
+							returnTypes = listOf(
+									AstNamedTypeReference(AstName("String"))
+							))) { ValueString(stringRepresent(left)) }
+					else       -> when (left) {
+						is ValueClass  -> ValueMemberReference(left, right)
+						is ValueString -> when (right) {
+							"contains" -> ValueInternalFunction(AstFunction(
+									name = AstName("contains"),
+									parameters = listOf(AstFunctionParameter(name = AstName("char"), type = AstNamedTypeReference(AstName("Char")))),
+									returnTypes = listOf(AstVariantType(listOf(
+											AstNamedTypeReference(AstName("Char")),
+											AstNamedTypeReference(AstName("Null"))
+									)))
+							)) { env ->
+								val str = (unref(env.getLocalVariable("char")!!) as ValueString).value
+								ValueBoolean(left.value.contains(str))
+							}
+							"length"   -> ValueNumber(left.value.length)
+							else       -> ValueNothing
 						}
-						"length" -> ValueNumber(left.value.length)
-						else -> ValueNothing
+						else           -> ValueNothing
 					}
-					else -> ValueNothing
 				}
 			}
 			BinaryOperator.MemberDynamic -> {
@@ -455,14 +503,15 @@ class Evaluator(vararg val importers: Importer) {
 
 				ValueDynamicMemberReference(this@Evaluator, this, left, right)
 			}
-			BinaryOperator.Assignment -> {
-				val left = evaluate(expr.left) as? ValueReference ?: throw RuntimeException("Left operand is not left-value")
+			BinaryOperator.Assignment    -> {
+				val left = evaluate(expr.left) as? ValueReference
+						?: throw RuntimeException("Left operand is not left-value")
 				val right = unref(evaluate(expr.right))
 
 				left.value = right
 				right
 			}
-			else -> {
+			else                         -> {
 				val left = unref(evaluate(expr.left))
 				val right = unref(evaluate(expr.right))
 
@@ -475,6 +524,6 @@ class Evaluator(vararg val importers: Importer) {
 				result
 			}
 		}
-		else -> TODO()
+		else                          -> TODO()
 	}
 }

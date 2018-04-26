@@ -60,7 +60,7 @@ object Presets {
 			"rem",
 			"pow", "sqrt",
 
-			"is"
+			"is", "typeof"
 	)
 
 	val DeclarationModifiers = mapOf<Any, List<String>>(
